@@ -1,0 +1,63 @@
+'use client';
+
+import Link from 'next/link';
+import { ArrowRight, Phone } from 'lucide-react';
+import { BRAND } from '@/lib/data/brand';
+import { ROUTES } from '@/lib/utils/constants';
+import { Reveal } from '@/components/motion/Reveal';
+import { Button } from '@/components/ui/Button';
+import { MagneticButton } from '@/components/motion/MagneticButton';
+
+export function FinalCTA() {
+  return (
+    <section className="relative overflow-hidden py-32">
+      <div className="absolute inset-0 -z-10 bg-walnut-grain opacity-90" />
+      <div className="absolute inset-0 -z-10 bg-cinema-vignette" />
+      <div className="noise-overlay" />
+
+      <div className="luxe-container relative text-center">
+        <Reveal>
+          <p className="eyebrow justify-center">Begin your commission</p>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <h2 className="mx-auto mt-8 max-w-4xl font-display text-display text-cream-50 text-balance">
+            Your next piece is <span className="gold-text italic">already being drawn.</span>
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-cream-200/70 text-pretty">
+            Open our live atelier configurator, or speak directly with {BRAND.subManager} — our
+            sub-manager — who personally walks every client through their first commission.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.3}>
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+            <MagneticButton>
+              <Link href={ROUTES.configuratorSofa}>
+                <Button size="lg">
+                  Open the configurator
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            </MagneticButton>
+            <a href={`tel:${BRAND.phonesRaw[0]}`}>
+              <Button size="lg" variant="outline">
+                <Phone className="h-4 w-4" />
+                {BRAND.phones[0]}
+              </Button>
+            </a>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.4}>
+          <p className="mt-10 text-[10px] uppercase tracking-luxe text-cream-200/50">
+            Or write to us · {BRAND.email}
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
