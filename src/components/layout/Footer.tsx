@@ -60,7 +60,7 @@ export function Footer() {
               {CATEGORIES.slice(0, 6).map((c) => (
                 <li key={c.id}>
                   <Link
-                    href={`${ROUTES.collections}/${c.slug}`}
+                    href={`/configurator/${c.slug}`}
                     className="transition-colors hover:text-gold-200"
                   >
                     {c.label}

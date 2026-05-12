@@ -39,7 +39,7 @@ export function SignatureCollections() {
                 title={c.label}
                 subtitle={c.subtitle}
                 description={c.description}
-                href={`${ROUTES.collections}/${c.slug}`}
+                href={`/configurator/${c.slug}`}
                 tone={c.heroTone}
                 index={i}
               />

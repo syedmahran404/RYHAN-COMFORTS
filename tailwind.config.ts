@@ -167,7 +167,8 @@ const config: Config = {
         'float-slow': 'float-slow 6s ease-in-out infinite',
         'fade-up': 'fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
         marquee: 'marquee 45s linear infinite',
-        'pulse-gold': 'pulse-gold 2.2s ease-out infinite'
+        'pulse-gold': 'pulse-gold 2.2s ease-out infinite',
+        'spin-slow': 'spin 8s linear infinite'
       }
     }
   },
