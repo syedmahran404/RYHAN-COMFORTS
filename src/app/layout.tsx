@@ -4,8 +4,10 @@ import '@/styles/globals.css';
 import { BRAND } from '@/lib/data/brand';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import QueryProvider from '@/lib/providers/QueryProvider';
 import SmoothScrollProvider from '@/lib/providers/SmoothScrollProvider';
+import { PageTransition } from '@/components/motion/PageTransition';
 
 const display = Cormorant_Garamond({
   subsets: ['latin'],
@@ -80,8 +82,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <QueryProvider>
           <SmoothScrollProvider>
             <Navbar />
-            <main className="relative">{children}</main>
+            <main className="relative">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
+            <FloatingWhatsApp />
           </SmoothScrollProvider>
         </QueryProvider>
       </body>
