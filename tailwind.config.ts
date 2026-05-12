@@ -25,31 +25,87 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Core luxury palette — drives the entire system
-        obsidian: {
-          50: '#f5f4f1',
-          100: '#e7e4dc',
-          200: '#c7c1b1',
-          300: '#8b8778',
-          400: '#524f47',
-          500: '#2b2a26',
-          600: '#1c1b18',
-          700: '#141310',
-          800: '#0d0c0a',
-          900: '#060605',
-          950: '#020202'
+        /* ══════════════════════════════════════════════════════════════
+           LIGHT LUXURY EDITORIAL PALETTE
+           porcelain · ivory · sand · walnut · champagne · ink
+           ══════════════════════════════════════════════════════════════ */
+        porcelain: {
+          50: '#ffffff',
+          100: '#fbf9f6',
+          200: '#f5f1ea',
+          300: '#ede7dc',
+          400: '#e0d7c7',
+          500: '#cdc1ab',
+          600: '#aa9a81',
+          700: '#7c6f5b',
+          800: '#4a4335',
+          900: '#29251d'
+        },
+        ivory: {
+          50: '#fdfcf9',
+          100: '#faf6ee',
+          200: '#f3ecdf',
+          300: '#e9dec9',
+          400: '#d8c7a8',
+          500: '#c0a77e',
+          600: '#a1895f'
+        },
+        sand: {
+          50: '#f8f3ea',
+          100: '#ede3ce',
+          200: '#ddc9a3',
+          300: '#c9ab77',
+          400: '#b4904f',
+          500: '#9a7838',
+          600: '#7a5c29'
         },
         walnut: {
-          50: '#f7efe4',
-          100: '#eddcc2',
-          200: '#d9b98a',
-          300: '#b8905a',
+          50: '#faf4ec',
+          100: '#ecdcc3',
+          200: '#d6b88b',
+          300: '#b88f58',
           400: '#8f6a3c',
           500: '#6b4e2a',
           600: '#4e3820',
           700: '#362618',
           800: '#221810',
           900: '#120b07'
+        },
+        champagne: {
+          DEFAULT: '#c8a96a',
+          50: '#fbf4de',
+          100: '#f3e3a8',
+          200: '#e6c86c',
+          300: '#c8a96a',
+          400: '#a88947',
+          500: '#8b6f31',
+          600: '#6e5820',
+          700: '#4a3a16'
+        },
+        pewter: {
+          50: '#f3f1ec',
+          100: '#e2ddd3',
+          200: '#c3bcae',
+          300: '#9d9587',
+          400: '#75705f',
+          500: '#54503f',
+          600: '#3a382b',
+          700: '#23211a',
+          800: '#121008'
+        },
+        /* Legacy aliases kept so existing class strings remain valid. */
+        obsidian: {
+          50: '#fbf9f6',
+          100: '#f5f1ea',
+          200: '#ede7dc',
+          300: '#c3bcae',
+          400: '#75705f',
+          500: '#3a382b',
+          600: '#e0d7c7',
+          700: '#23211a',
+          800: '#121008',
+          900: '#0a0907',
+          950: '#050403'
         },
         bronze: {
           50: '#fbf1e2',
@@ -63,27 +119,27 @@ const config: Config = {
           800: '#2c1c0b'
         },
         gold: {
-          DEFAULT: '#c9a24a',
+          DEFAULT: '#c8a96a',
           50: '#fbf4de',
           100: '#f3e3a8',
           200: '#e6c86c',
-          300: '#d2ac4a',
-          400: '#b88d33',
-          500: '#966e22',
-          600: '#6e4f18',
+          300: '#c8a96a',
+          400: '#a88947',
+          500: '#8b6f31',
+          600: '#6e5820',
           700: '#463110',
           800: '#241808'
         },
         cream: {
-          50: '#fbf7ee',
-          100: '#f4ecd9',
-          200: '#e7d6af',
-          300: '#d4bb83',
-          400: '#b89a63',
-          500: '#8e7549'
+          50: '#fdfcf9',
+          100: '#faf6ee',
+          200: '#4a4335',
+          300: '#29251d',
+          400: '#23211a',
+          500: '#121008'
         },
-        ink: '#0a0907',
-        parchment: '#efe7d4',
+        ink: '#23211a',
+        parchment: '#faf6ee',
         // Semantic aliases (ShadCN-compatible)
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -123,18 +179,27 @@ const config: Config = {
         xl: '20px'
       },
       boxShadow: {
-        luxe: '0 40px 80px -32px rgba(0,0,0,0.7), 0 8px 24px -12px rgba(201,162,74,0.15)',
-        bevel: 'inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.5)',
-        glow: '0 0 0 1px rgba(201,162,74,0.35), 0 10px 40px -10px rgba(201,162,74,0.35)'
+        luxe: '0 30px 60px -24px rgba(74, 67, 53, 0.22), 0 8px 24px -12px rgba(200, 169, 106, 0.18)',
+        editorial:
+          '0 50px 100px -40px rgba(37, 32, 23, 0.28), 0 20px 40px -20px rgba(74, 67, 53, 0.16)',
+        soft:
+          '0 2px 4px rgba(74, 67, 53, 0.04), 0 12px 28px -12px rgba(74, 67, 53, 0.14)',
+        bevel:
+          'inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -1px 0 rgba(74,67,53,0.08)',
+        glow: '0 0 0 1px rgba(200,169,106,0.45), 0 18px 40px -10px rgba(200,169,106,0.30)'
       },
       backgroundImage: {
         'noise': "url('/textures/noise.svg')",
-        'grain': 'radial-gradient(transparent, rgba(0,0,0,0.25))',
-        'gold-line': 'linear-gradient(90deg, transparent, rgba(201,162,74,0.6), transparent)',
+        'grain': 'radial-gradient(transparent, rgba(74,67,53,0.08))',
+        'gold-line': 'linear-gradient(90deg, transparent, rgba(200,169,106,0.6), transparent)',
+        'ivory-paper':
+          'radial-gradient(1200px 600px at 30% 20%, rgba(232,220,192,0.55), transparent 60%), radial-gradient(800px 400px at 80% 80%, rgba(200,169,106,0.18), transparent 60%), #faf6ee',
         'walnut-grain':
-          'radial-gradient(1200px 600px at 30% 20%, rgba(184,144,90,0.15), transparent 60%), radial-gradient(800px 400px at 80% 80%, rgba(107,78,42,0.18), transparent 60%)',
+          'radial-gradient(1200px 600px at 30% 20%, rgba(184,144,90,0.12), transparent 60%), radial-gradient(800px 400px at 80% 80%, rgba(107,78,42,0.10), transparent 60%)',
         'cinema-vignette':
-          'radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.75) 100%)'
+          'radial-gradient(ellipse at center, transparent 55%, rgba(74, 67, 53, 0.22) 100%)',
+        'editorial-frame':
+          'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(245,241,234,0.6) 100%)'
       },
       transitionTimingFunction: {
         silk: 'cubic-bezier(0.22, 1, 0.36, 1)',
@@ -167,7 +232,8 @@ const config: Config = {
         'float-slow': 'float-slow 6s ease-in-out infinite',
         'fade-up': 'fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
         marquee: 'marquee 45s linear infinite',
-        'pulse-gold': 'pulse-gold 2.2s ease-out infinite'
+        'pulse-gold': 'pulse-gold 2.2s ease-out infinite',
+        'spin-slow': 'spin 8s linear infinite'
       }
     }
   },

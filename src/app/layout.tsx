@@ -4,8 +4,10 @@ import '@/styles/globals.css';
 import { BRAND } from '@/lib/data/brand';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import QueryProvider from '@/lib/providers/QueryProvider';
 import SmoothScrollProvider from '@/lib/providers/SmoothScrollProvider';
+import { PageTransition } from '@/components/motion/PageTransition';
 
 const display = Cormorant_Garamond({
   subsets: ['latin'],
@@ -29,7 +31,7 @@ const mono = JetBrains_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: '#060605',
+  themeColor: '#faf6ee',
   width: 'device-width',
   initialScale: 1
 };
@@ -76,12 +78,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
-      <body className="min-h-svh bg-ink text-foreground antialiased">
+      <body className="min-h-svh bg-ivory-100 text-pewter-700 antialiased">
         <QueryProvider>
           <SmoothScrollProvider>
             <Navbar />
-            <main className="relative">{children}</main>
+            <main className="relative">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
+            <FloatingWhatsApp />
           </SmoothScrollProvider>
         </QueryProvider>
       </body>

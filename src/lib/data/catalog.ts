@@ -1,229 +1,824 @@
-import type { Product } from '@/lib/schemas/product';
-import { FABRICS, WOODS } from './materials';
-import { SOFA_DEFAULTS } from '@/lib/utils/constants';
+import type { Product, ProductCategory, ProductStyle, ProductTag } from '@/lib/schemas/product';
+import {
+  buildSofa,
+  buildChair,
+  buildBed,
+  buildHeadboard,
+  buildMattress,
+  buildCurtain,
+  tagify
+} from './generators';
 
 /**
- * Catalog — schema-driven product definitions.
- * Each product is admin-editable in Phase 2 without touching UI code.
+ * Catalog — parametric, schema-driven.
+ *
+ * This file composes every product from the generators.
+ *   · Sofas — 13 styles × 3 sub-models each (≈ 39 base silhouettes)
+ *   · Chairs — 9 styles × 2 sub-models (≈ 18 base silhouettes)
+ *   · Beds — 5 kinds × 3 names each
+ *   · Headboards — 5 kinds × 3 names
+ *   · Mattresses — 5 kinds × 3 names
+ *   · Curtains — 5 kinds × 3 names
+ *
+ * Every base silhouette exposes a ~16-group configurator which in turn
+ * branches into an effectively unbounded configuration space (≈ 10^6+ per sofa).
+ *
+ * Phase 1 identity preserved — `SOFA_PROTOTYPE` still resolves to the
+ * Atelier Signature so existing routes / hero / configurator keep working.
  */
 
-const fabricOptions = FABRICS.map((f) => ({
-  id: f.id,
-  label: f.name,
-  priceDelta: f.priceDelta,
-  visual: f.color,
-  meta: { kind: f.kind, tier: f.tier }
-}));
+// ═══════════════════════════════════════════════════════════════════
+// SOFAS — 13 styles
+// ═══════════════════════════════════════════════════════════════════
 
-const woodOptions = WOODS.map((w) => ({
-  id: w.id,
-  label: w.name,
-  priceDelta: w.priceDelta,
-  visual: w.color,
-  meta: { kind: w.kind, tier: w.tier }
-}));
+const SOFA_CATALOG: Product[] = [
+  // MODERN
+  buildSofa({
+    id: 'sofa-atelier-signature',
+    slug: 'atelier-signature',
+    name: 'Atelier Signature',
+    tagline: 'The cornerstone of the collection',
+    description:
+      'A sculpted low-profile sofa with hand-stitched seams and a solid walnut plinth. Custom-made in our Bengaluru atelier to your dimensions and fabric.',
+    style: 'modern',
+    tags: tagify('bestseller', 'editors-pick', 'export-quality'),
+    collections: ['signature', 'premium', 'export-quality'],
+    basePrice: 25000,
+    defaultUpholstery: 'linen-sandstone'
+  }),
+  buildSofa({
+    name: 'Atelier Low Lounge',
+    tagline: 'Cinematic, floor-grazing',
+    description: 'Lower proportion, deeper seat, all-linen option.',
+    style: 'modern',
+    tags: tagify('trending'),
+    collections: ['trending']
+  }),
+  buildSofa({
+    name: 'Atelier Chaise Continental',
+    tagline: 'Extended silhouette',
+    description: 'Chaise-extended modern sofa — one-arm or two.',
+    style: 'modern',
+    collections: []
+  }),
 
-// ------------------------------------------------------------------
-// SOFAS — fully configurable prototype
-// ------------------------------------------------------------------
+  // MINIMAL
+  buildSofa({
+    name: 'Kōan Platform',
+    tagline: 'Floor-grazing monolith',
+    description: 'A single sculpted slab — ideal for architectural interiors.',
+    style: 'minimal',
+    tags: tagify('editors-pick'),
+    collections: ['premium']
+  }),
+  buildSofa({
+    name: 'Shibui Island',
+    tagline: 'Centrepiece minimalism',
+    description: 'Visible from all sides, floor-grazing, linen-wrapped.',
+    style: 'minimal',
+    collections: []
+  }),
 
-const SOFA_ATELIER: Product = {
-  id: 'sofa-atelier',
-  slug: 'atelier-signature',
-  category: 'sofa',
-  name: 'Atelier Signature',
-  tagline: 'The cornerstone of the collection',
-  description:
-    'A sculpted low-profile sofa with hand-stitched seams and a solid walnut plinth. Custom-made in our Bengaluru atelier to your dimensions and fabric.',
-  basePrice: SOFA_DEFAULTS.basePrice,
-  currency: 'INR',
-  renderVariant: 'procedural-sofa',
-  defaultMaterials: {
-    upholstery: 'linen-sandstone',
-    base: 'walnut-natural'
-  },
-  groups: [
-    {
-      id: 'model',
-      label: 'Silhouette',
-      kind: 'single',
-      required: true,
-      defaultValue: 'atelier-lowback',
-      options: [
-        {
-          id: 'atelier-lowback',
-          label: 'Low-back Atelier',
-          description: 'Cinematic low silhouette · 82 cm height',
-          priceDelta: 0
-        },
-        {
-          id: 'atelier-highback',
-          label: 'High-back Atelier',
-          description: 'Architectural high silhouette · 104 cm height',
-          priceDelta: 6500
-        },
-        {
-          id: 'atelier-chaise',
-          label: 'Atelier Chaise',
-          description: 'Extended chaise lounge variant',
-          priceDelta: 11000
-        }
-      ]
-    },
-    {
-      id: 'seating',
-      label: 'Seating count',
-      kind: 'count',
-      required: true,
-      defaultValue: SOFA_DEFAULTS.seatingCount,
-      range: {
-        min: 2,
-        max: 6,
-        step: 1,
-        baseUnit: 3,
-        pricePerUnit: 7500,
-        unitLabel: 'seat'
-      },
-      options: []
-    },
-    {
-      id: 'upholstery',
-      label: 'Upholstery',
-      kind: 'single',
-      required: true,
-      defaultValue: 'linen-sandstone',
-      options: fabricOptions
-    },
-    {
-      id: 'base',
-      label: 'Base & legs',
-      kind: 'single',
-      required: true,
-      defaultValue: 'walnut-natural',
-      options: woodOptions
-    },
-    {
-      id: 'seat-foam',
-      label: 'Seat foam density',
-      kind: 'range',
-      required: true,
-      defaultValue: SOFA_DEFAULTS.seatFoamDensity,
-      range: {
-        min: 32,
-        max: 70,
-        step: 2,
-        baseUnit: SOFA_DEFAULTS.seatFoamDensity,
-        pricePerUnit: 180,
-        unitLabel: 'density'
-      },
-      options: []
-    },
-    {
-      id: 'back-foam',
-      label: 'Back foam density',
-      kind: 'range',
-      required: true,
-      defaultValue: SOFA_DEFAULTS.backFoamDensity,
-      range: {
-        min: 24,
-        max: 60,
-        step: 2,
-        baseUnit: SOFA_DEFAULTS.backFoamDensity,
-        pricePerUnit: 140,
-        unitLabel: 'density'
-      },
-      options: []
-    }
-  ]
-};
+  // SCANDINAVIAN
+  buildSofa({
+    name: 'Nord Three',
+    tagline: 'Oak-framed Scandinavian',
+    description: 'Light Scandinavian silhouette — oak legs, linen cover.',
+    style: 'scandinavian',
+    tags: tagify('trending'),
+    collections: ['trending']
+  }),
+  buildSofa({
+    name: 'Nord Daybed',
+    tagline: 'Single-arm daybed',
+    description: 'Single-arm Scandinavian daybed for reading rooms.',
+    style: 'scandinavian',
+    collections: []
+  }),
 
-// ------------------------------------------------------------------
-// Lightweight placeholders for other categories (Phase 2 expansion)
-// ------------------------------------------------------------------
+  // CHESTERFIELD
+  buildSofa({
+    id: 'sofa-chesterfield-kensington',
+    slug: 'kensington-chesterfield',
+    name: 'Kensington Chesterfield',
+    tagline: 'Hand button-tufted heritage',
+    description:
+      'The classic Chesterfield — deep button-tufted in full-grain leather or velvet, on carved walnut legs.',
+    style: 'chesterfield',
+    tags: tagify('heritage', 'editors-pick'),
+    collections: ['luxury-heritage', 'premium'],
+    basePrice: 32000,
+    defaultUpholstery: 'leather-cognac'
+  }),
+  buildSofa({
+    name: 'Regent Wingback Chesterfield',
+    tagline: 'Winged, throne-scale',
+    description: 'Wingback Chesterfield with high silhouette.',
+    style: 'chesterfield',
+    tags: tagify('heritage'),
+    collections: ['luxury-heritage']
+  }),
 
-const CHAIR_LUNE: Product = {
-  id: 'chair-lune',
-  slug: 'lune-lounge',
-  category: 'chair',
-  name: 'Lune Lounge',
-  tagline: 'Sculpted comfort',
-  description: 'A wing-backed lounge chair carved for quiet rooms and late reading.',
-  basePrice: 18000,
-  renderVariant: 'procedural-chair',
-  currency: 'INR',
-  defaultMaterials: { upholstery: 'velvet-emerald', base: 'walnut-natural' },
-  groups: []
-};
+  // ITALIAN LUXURY
+  buildSofa({
+    id: 'sofa-italian-milano-curved',
+    slug: 'milano-curved',
+    name: 'Milano Curved',
+    tagline: 'Milanese proportion, Nappa leather',
+    description:
+      'A low-slung, curved sofa in Italian Nappa — the kind of silhouette Milan showrooms disappear around.',
+    style: 'italian-luxury',
+    tags: tagify('editors-pick', 'imported-fabric'),
+    collections: ['italian-luxury', 'premium'],
+    basePrice: 48000,
+    defaultUpholstery: 'leather-noir'
+  }),
+  buildSofa({
+    name: 'Milano Executive',
+    tagline: 'Deep-pocket recline',
+    description: 'Executive-scale Italian sofa with deep recline.',
+    style: 'italian-luxury',
+    collections: ['italian-luxury']
+  }),
 
-const BED_NOCTURNE: Product = {
-  id: 'bed-nocturne',
-  slug: 'nocturne-carved',
-  category: 'bed',
-  name: 'Nocturne Carved Bed',
-  tagline: 'Handcarved sanctuary',
-  description: 'A carved rosewood bed with a fluted headboard and hydraulic storage option.',
-  basePrice: 62000,
-  renderVariant: 'procedural-bed',
-  currency: 'INR',
-  defaultMaterials: { frame: 'rosewood-hand-carved' },
-  groups: []
-};
+  // ROYAL CARVED
+  buildSofa({
+    id: 'sofa-maharaja-throne',
+    slug: 'maharaja-throne',
+    name: 'Maharaja Throne',
+    tagline: 'Hand-carved rosewood masterwork',
+    description:
+      'A ceremonial sofa carved from a single block of rosewood — gold cord piping, velvet seat, museum-grade carving.',
+    style: 'royal-carved',
+    tags: tagify('hand-carved', 'heritage', 'limited'),
+    collections: ['luxury-heritage'],
+    basePrice: 95000,
+    defaultUpholstery: 'velvet-bordeaux',
+    defaultBase: 'rosewood-hand-carved'
+  }),
+  buildSofa({
+    name: 'Imperial Carved Settee',
+    tagline: 'Throne scale, mirror inlay',
+    description: 'Masterwork-scale carved settee with mirror inlay detail.',
+    style: 'royal-carved',
+    tags: tagify('hand-carved', 'limited'),
+    collections: ['luxury-heritage']
+  }),
 
-const MATTRESS_AURA: Product = {
-  id: 'mattress-aura',
-  slug: 'aura-latex',
-  category: 'mattress',
-  name: 'Aura Latex',
-  tagline: 'Sleep, re-engineered',
-  description: 'Custom-layered latex and pocket-spring mattress, built to your firmness profile.',
-  basePrice: 28000,
-  renderVariant: 'procedural-mattress',
-  currency: 'INR',
-  defaultMaterials: {},
-  groups: []
-};
+  // ARABIC LUXURY
+  buildSofa({
+    id: 'sofa-majlis-royale',
+    slug: 'majlis-royale',
+    name: 'Majlis Royale',
+    tagline: 'Gulf-inspired low luxury',
+    description:
+      'Low-slung majlis sofa with carved-back detail — generous seating, velvet upholstery, gold cord.',
+    style: 'arabic-luxury',
+    tags: tagify('heritage', 'editors-pick'),
+    collections: ['luxury-heritage'],
+    basePrice: 42000,
+    defaultUpholstery: 'velvet-bordeaux'
+  }),
+  buildSofa({
+    name: 'Diwan Al-Fakhama',
+    tagline: 'Carved-frame diwan',
+    description: 'Carved-frame diwan with majlis-scale seating.',
+    style: 'arabic-luxury',
+    collections: ['luxury-heritage']
+  }),
 
-const CURTAIN_VEIL: Product = {
-  id: 'curtain-veil',
-  slug: 'veil-drape',
-  category: 'curtain',
-  name: 'Veil Drape',
-  tagline: 'Light, redrawn',
-  description: 'Floor-to-ceiling linen and velvet drapery, tailored to the millimetre.',
-  basePrice: 9500,
-  renderVariant: 'procedural-curtain',
-  currency: 'INR',
-  defaultMaterials: {},
-  groups: []
-};
+  // ASIAN PREMIUM
+  buildSofa({
+    name: 'Teak Line',
+    tagline: 'Exposed-teak Japanese proportion',
+    description: 'Burnt-teak frame, silk upholstery, low Japanese proportion.',
+    style: 'asian-premium',
+    tags: tagify('editors-pick'),
+    collections: ['premium']
+  }),
 
-const HEADBOARD_ORACLE: Product = {
-  id: 'headboard-oracle',
-  slug: 'oracle-fluted',
-  category: 'headboard',
-  name: 'Oracle Fluted Headboard',
-  tagline: 'Wall as stage',
-  description: 'A fluted wall-mounted headboard in upholstered velvet or carved walnut.',
-  basePrice: 22000,
-  renderVariant: 'procedural-headboard',
-  currency: 'INR',
-  defaultMaterials: {},
-  groups: []
-};
+  // CURVED
+  buildSofa({
+    name: 'Crescent Bespoke',
+    tagline: 'Full crescent curve',
+    description: 'Crescent-curved sofa — an architectural centrepiece.',
+    style: 'curved',
+    tags: tagify('trending', 'editors-pick'),
+    collections: ['trending', 'premium']
+  }),
+  buildSofa({
+    name: 'Kidney Soft',
+    tagline: 'Soft S-curve',
+    description: 'Kidney-shaped soft curved sofa.',
+    style: 'curved',
+    collections: []
+  }),
+
+  // RECLINER
+  buildSofa({
+    name: 'Cinema Recliner',
+    tagline: 'Home theatre recliner row',
+    description: 'Theatre-grade 5-seat recliner with cup holders and hidden storage.',
+    style: 'recliner',
+    tags: tagify('hotel-grade'),
+    collections: ['hotel-grade'],
+    basePrice: 78000
+  }),
+  buildSofa({
+    name: 'Zero-G Lounge',
+    tagline: 'Zero-gravity lounge',
+    description: 'Electric zero-gravity lounge silhouette.',
+    style: 'recliner',
+    collections: []
+  }),
+
+  // SECTIONAL
+  buildSofa({
+    name: 'U-Vault Sectional',
+    tagline: 'Full-room wrap',
+    description: 'U-shape sectional for open-plan living rooms.',
+    style: 'sectional',
+    tags: tagify('trending'),
+    collections: ['trending']
+  }),
+  buildSofa({
+    name: 'Island Sectional',
+    tagline: 'Floating centrepiece',
+    description: 'Island sectional — seats converge on a central pod.',
+    style: 'sectional',
+    collections: []
+  }),
+
+  // L-SHAPE
+  buildSofa({
+    id: 'sofa-l-corner',
+    slug: 'corner-l',
+    name: 'Corner L',
+    tagline: 'Left- or right-hand L',
+    description: 'The classic L corner — reversible orientation, deep option.',
+    style: 'l-shape',
+    tags: tagify('bestseller', 'trending'),
+    collections: ['trending'],
+    basePrice: 38000
+  }),
+  buildSofa({
+    name: 'Deep L',
+    tagline: 'Extra seat depth',
+    description: 'Deep L — extra seat depth for movie rooms.',
+    style: 'l-shape',
+    collections: []
+  }),
+
+  // MODULAR
+  buildSofa({
+    name: 'Module Five',
+    tagline: 'Five interlocking blocks',
+    description: 'Five-module reconfigurable system.',
+    style: 'modular',
+    tags: tagify('editors-pick'),
+    collections: ['premium']
+  }),
+  buildSofa({
+    name: 'Module Seven',
+    tagline: 'Seven interlocking blocks',
+    description: 'Seven-module configurable system.',
+    style: 'modular',
+    collections: []
+  }),
+
+  // ═════════════ NEW LUXURY TYPOLOGIES (Phase 3) ═════════════
+
+  // MID CENTURY
+  buildSofa({
+    id: 'sofa-mid-halston',
+    slug: 'halston-mid-century',
+    name: 'Halston Mid-Century',
+    tagline: 'Walnut-legged modernism',
+    description: 'Tapered walnut legs, low-tailored back, editorial mid-century silhouette.',
+    style: 'mid-century',
+    tags: tagify('editors-pick', 'trending'),
+    collections: ['trending', 'premium'],
+    basePrice: 28500
+  }),
+
+  // TUXEDO
+  buildSofa({
+    id: 'sofa-tux-manhattan',
+    slug: 'manhattan-tuxedo',
+    name: 'Manhattan Tuxedo',
+    tagline: 'Equal-height arm & back',
+    description: 'A tailored Tuxedo silhouette — arm and back meet at the same cinematic plane.',
+    style: 'tuxedo',
+    tags: tagify('editors-pick'),
+    collections: ['premium'],
+    basePrice: 31500
+  }),
+
+  // LAWSON
+  buildSofa({
+    id: 'sofa-lawson-montclair',
+    slug: 'montclair-lawson',
+    name: 'Montclair Lawson',
+    tagline: 'Loose cushion ease',
+    description: 'Deep seat, oversized back cushions — the quintessential family sofa.',
+    style: 'lawson',
+    tags: tagify('bestseller'),
+    collections: [],
+    basePrice: 24500
+  }),
+
+  // CAMELBACK
+  buildSofa({
+    id: 'sofa-camel-georgian',
+    slug: 'georgian-camelback',
+    name: 'Georgian Camelback',
+    tagline: 'Arched crown heritage',
+    description: 'The arched Georgian camelback — a heritage silhouette refined for modern rooms.',
+    style: 'camelback',
+    tags: tagify('heritage'),
+    collections: ['luxury-heritage']
+  }),
+
+  // ENGLISH ROLL ARM
+  buildSofa({
+    id: 'sofa-era-belgrave',
+    slug: 'belgrave-english',
+    name: 'Belgrave English',
+    tagline: 'English roll arm classic',
+    description: 'Low-set back, softly rolled arms, down-wrapped cushions.',
+    style: 'english-roll-arm',
+    tags: tagify('heritage', 'editors-pick'),
+    collections: ['luxury-heritage', 'premium']
+  }),
+
+  // ART DECO
+  buildSofa({
+    id: 'sofa-deco-parisian',
+    slug: 'parisian-art-deco',
+    name: 'Parisian Art Deco',
+    tagline: 'Brass, geometry, 1920s',
+    description: 'Geometric back, brass legs, a silhouette straight from a Parisian salon.',
+    style: 'art-deco',
+    tags: tagify('heritage', 'editors-pick'),
+    collections: ['luxury-heritage', 'premium'],
+    basePrice: 46000
+  }),
+
+  // CLOUD
+  buildSofa({
+    id: 'sofa-cloud-nimbus',
+    slug: 'nimbus-cloud',
+    name: 'Nimbus Cloud',
+    tagline: 'Down-fill pillowy depth',
+    description: 'Deep down-filled cushions that swallow you in editorial softness.',
+    style: 'cloud',
+    tags: tagify('bestseller', 'trending'),
+    collections: ['trending'],
+    basePrice: 39500
+  }),
+
+  // HOTEL LOUNGE
+  buildSofa({
+    id: 'sofa-hotel-concord',
+    slug: 'concord-hotel-lounge',
+    name: 'Concord Hotel Lounge',
+    tagline: 'Contract-grade hospitality scale',
+    description: 'The sofa we install for boutique hotels — warranty-extended, hospitality-grade.',
+    style: 'hotel-lounge',
+    tags: tagify('hotel-grade', 'export-quality'),
+    collections: ['hotel-grade', 'export-quality']
+  }),
+
+  // LOW PROFILE
+  buildSofa({
+    id: 'sofa-low-osaka',
+    slug: 'osaka-low-profile',
+    name: 'Osaka Low Profile',
+    tagline: 'Floor-grazing architecture',
+    description: 'A low architectural silhouette designed for statement rooms.',
+    style: 'low-profile',
+    collections: []
+  }),
+
+  // JAPANESE MINIMAL
+  buildSofa({
+    id: 'sofa-jm-kyoto',
+    slug: 'kyoto-minimal',
+    name: 'Kyoto Minimal',
+    tagline: 'Floor-seating harmony',
+    description: 'Japanese floor-level seating, linen cover, tatami proportion.',
+    style: 'japanese-minimal',
+    collections: ['premium']
+  }),
+
+  // SCULPTED
+  buildSofa({
+    id: 'sofa-sculpt-marea',
+    slug: 'marea-sculpted',
+    name: 'Marea Sculpted',
+    tagline: 'Artisan organic form',
+    description: 'A free-form sculptural sofa — a three-dimensional brushstroke in your room.',
+    style: 'sculpted',
+    tags: tagify('limited', 'editors-pick'),
+    collections: ['luxury-heritage', 'premium'],
+    basePrice: 62000
+  }),
+
+  // VELVET LOUNGE
+  buildSofa({
+    id: 'sofa-velvet-verona',
+    slug: 'verona-velvet-lounge',
+    name: 'Verona Velvet Lounge',
+    tagline: 'Velvet-wrapped deep lounge',
+    description: 'Deep velvet-wrapped silhouette with hand-stitched gold cord piping.',
+    style: 'velvet-lounge',
+    tags: tagify('editors-pick', 'imported-fabric'),
+    collections: ['premium'],
+    defaultUpholstery: 'velvet-bordeaux',
+    basePrice: 42000
+  }),
+
+  // FLOATING BASE
+  buildSofa({
+    id: 'sofa-float-celeste',
+    slug: 'celeste-floating',
+    name: 'Celeste Floating',
+    tagline: 'Suspended plinth',
+    description: 'A floating-base sofa with ambient underglow LED option.',
+    style: 'floating-base',
+    tags: tagify('trending', 'editors-pick'),
+    collections: ['trending', 'premium']
+  }),
+
+  // CONTEMPORARY LUXURY
+  buildSofa({
+    id: 'sofa-contemporary-soho',
+    slug: 'soho-editorial',
+    name: 'Soho Editorial',
+    tagline: 'Modern editorial luxe',
+    description: 'A contemporary-luxury silhouette — clean lines, generous proportion, editorial palette.',
+    style: 'contemporary-luxury',
+    tags: tagify('editors-pick', 'trending'),
+    collections: ['trending', 'premium']
+  }),
+
+  // SIGNATURE SERIES
+  buildSofa({
+    id: 'sofa-signature-azam',
+    slug: 'azam-signature',
+    name: 'Azam Signature',
+    tagline: 'Personally signed by Azam Pasha',
+    description:
+      'The Signature Series — each sofa is personally finished and signed by our owner. Limited editions.',
+    style: 'signature-series',
+    tags: tagify('heritage', 'limited', 'editors-pick'),
+    collections: ['luxury-heritage', 'signature'],
+    basePrice: 125000
+  })
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// CHAIRS — 9 styles
+// ═══════════════════════════════════════════════════════════════════
+
+const CHAIR_CATALOG: Product[] = [
+  buildChair({
+    id: 'chair-lune-lounge',
+    slug: 'lune-lounge',
+    name: 'Lune Lounge',
+    tagline: 'Sculpted, wing-backed',
+    description: 'A wing-backed lounge chair carved for quiet rooms and late reading.',
+    style: 'modern',
+    tags: tagify('bestseller', 'editors-pick'),
+    collections: ['signature', 'premium'],
+    basePrice: 18000
+  }),
+  buildChair({
+    name: 'Lune Low',
+    tagline: 'Architectural low',
+    description: 'Low architectural lounge chair.',
+    style: 'modern',
+    collections: []
+  }),
+  buildChair({
+    name: 'Kōan Accent',
+    tagline: 'Compact minimal accent',
+    description: 'A compact minimal accent chair for studios.',
+    style: 'minimal',
+    tags: tagify('trending'),
+    collections: ['trending']
+  }),
+  buildChair({
+    name: 'Nord Reading',
+    tagline: 'Oak-framed reading chair',
+    description: 'Scandinavian oak-framed reading chair.',
+    style: 'scandinavian',
+    collections: []
+  }),
+  buildChair({
+    id: 'chair-chester-wingback',
+    slug: 'chesterfield-wingback',
+    name: 'Chesterfield Wingback',
+    tagline: 'Deep button winged',
+    description: 'Deep button-tufted wingback in leather.',
+    style: 'chesterfield',
+    tags: tagify('heritage'),
+    collections: ['luxury-heritage'],
+    basePrice: 24000
+  }),
+  buildChair({
+    name: 'Milano Swivel',
+    tagline: 'Italian swivel lounge',
+    description: 'Nappa leather swivel lounge — Milanese proportion.',
+    style: 'italian-luxury',
+    tags: tagify('editors-pick', 'imported-fabric'),
+    collections: ['italian-luxury', 'premium']
+  }),
+  buildChair({
+    id: 'chair-maharani-throne',
+    slug: 'maharani-throne',
+    name: 'Maharani Throne',
+    tagline: 'Hand-carved throne chair',
+    description: 'Hand-carved rosewood throne chair — masterwork-grade.',
+    style: 'royal-carved',
+    tags: tagify('hand-carved', 'heritage', 'limited'),
+    collections: ['luxury-heritage'],
+    basePrice: 42000
+  }),
+  buildChair({
+    name: 'Majlis Carver',
+    tagline: 'Gulf majlis chair',
+    description: 'Carved majlis chair in the Arabic tradition.',
+    style: 'arabic-luxury',
+    collections: ['luxury-heritage']
+  }),
+  buildChair({
+    name: 'Egg Curve',
+    tagline: 'Curved shell lounge',
+    description: 'Curved egg-shell lounge chair.',
+    style: 'curved',
+    tags: tagify('editors-pick'),
+    collections: ['premium']
+  }),
+  buildChair({
+    name: 'Zero-G Recliner',
+    tagline: 'Zero-gravity recliner',
+    description: 'Engineered zero-gravity recliner chair.',
+    style: 'recliner',
+    collections: []
+  })
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// BEDS — 5 kinds
+// ═══════════════════════════════════════════════════════════════════
+
+const BED_CATALOG: Product[] = [
+  buildBed({
+    id: 'bed-nocturne-carved-heritage',
+    slug: 'nocturne-carved',
+    name: 'Nocturne Carved',
+    tagline: 'Hand-carved sanctuary',
+    description:
+      'A carved rosewood bed with a hand-carved headboard — a museum-grade heirloom for generational homes.',
+    kind: 'carved',
+    tags: tagify('hand-carved', 'heritage', 'editors-pick'),
+    collections: ['signature', 'luxury-heritage'],
+    basePrice: 95000
+  }),
+  buildBed({
+    name: 'Nocturne Hydraulic',
+    tagline: 'Lift to reveal',
+    description: 'Hydraulic storage bed with a tufted upholstered headboard.',
+    kind: 'hydraulic',
+    tags: tagify('bestseller', 'trending', 'export-quality'),
+    collections: ['trending', 'export-quality']
+  }),
+  buildBed({
+    name: 'Nocturne Storage',
+    tagline: 'Side-drawer storage',
+    description: 'Side-drawer storage bed with a fluted headboard.',
+    kind: 'storage',
+    tags: tagify('bestseller'),
+    collections: []
+  }),
+  buildBed({
+    name: 'Floating Halo',
+    tagline: 'Floating underglow',
+    description: 'A floating bed with hidden plinth and ambient underglow.',
+    kind: 'floating',
+    tags: tagify('editors-pick', 'trending'),
+    collections: ['trending', 'premium']
+  }),
+  buildBed({
+    name: 'Velvet Upholstered',
+    tagline: 'Fully fabric-wrapped',
+    description: 'Fully upholstered bed in velvet — tufted, fluted or plain headboard.',
+    kind: 'upholstered',
+    collections: ['premium']
+  })
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// HEADBOARDS
+// ═══════════════════════════════════════════════════════════════════
+
+const HEADBOARD_CATALOG: Product[] = [
+  buildHeadboard({
+    id: 'headboard-oracle-fluted',
+    slug: 'oracle-fluted',
+    name: 'Oracle Fluted',
+    tagline: 'Wall as stage',
+    description: 'A fluted wall-mounted headboard in upholstered velvet.',
+    kind: 'fluted',
+    tags: tagify('editors-pick', 'trending'),
+    collections: ['trending', 'premium'],
+    basePrice: 22000
+  }),
+  buildHeadboard({
+    name: 'Oracle Tufted',
+    tagline: 'Diamond tufted',
+    description: 'Diamond-tufted wall headboard in velvet.',
+    kind: 'tufted',
+    collections: ['premium']
+  }),
+  buildHeadboard({
+    name: 'Oracle Hand-Carved',
+    tagline: 'Museum-grade carving',
+    description: 'Hand-carved rosewood wall headboard — floral or geometric.',
+    kind: 'carved',
+    tags: tagify('hand-carved', 'heritage'),
+    collections: ['luxury-heritage']
+  }),
+  buildHeadboard({
+    name: 'Wall Architecture',
+    tagline: 'Wall-feature panel',
+    description: 'Wall-mounted architectural headboard with mixed wood + fabric.',
+    kind: 'wall-mounted',
+    collections: ['premium']
+  }),
+  buildHeadboard({
+    name: 'Oracle Channel',
+    tagline: 'Channel-stitched upholstered',
+    description: 'Channel-stitched upholstered headboard.',
+    kind: 'upholstered',
+    collections: []
+  })
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// MATTRESSES
+// ═══════════════════════════════════════════════════════════════════
+
+const MATTRESS_CATALOG: Product[] = [
+  buildMattress({
+    id: 'mattress-aura-latex',
+    slug: 'aura-latex',
+    name: 'Aura Latex',
+    tagline: 'Sleep, re-engineered',
+    description: 'Natural latex + pocket-spring hybrid mattress, custom firmness.',
+    kind: 'hybrid',
+    tags: tagify('editors-pick', 'export-quality'),
+    collections: ['signature', 'premium', 'export-quality'],
+    basePrice: 32000
+  }),
+  buildMattress({
+    name: 'Orion Spring',
+    tagline: 'Seven-zone pocket spring',
+    description: 'Pocket-spring mattress with seven-zone support.',
+    kind: 'spring',
+    tags: tagify('bestseller'),
+    collections: ['trending']
+  }),
+  buildMattress({
+    name: 'Cloud Memory',
+    tagline: 'Gel memory foam',
+    description: 'Gel memory foam mattress for contoured support.',
+    kind: 'memory',
+    tags: tagify('trending'),
+    collections: ['trending']
+  }),
+  buildMattress({
+    name: 'Ortho Prime',
+    tagline: 'Orthopedic HR',
+    description: 'Orthopedic high-resilience mattress for clinical-grade support.',
+    kind: 'orthopedic',
+    tags: tagify('orthopedic'),
+    collections: []
+  }),
+  buildMattress({
+    name: 'Hotel Signature',
+    tagline: 'Hotel-grade pillow-top',
+    description: 'Five-star hotel-grade pillow-top mattress.',
+    kind: 'hotel',
+    tags: tagify('hotel-grade', 'export-quality'),
+    collections: ['hotel-grade', 'export-quality']
+  })
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// CURTAINS
+// ═══════════════════════════════════════════════════════════════════
+
+const CURTAIN_CATALOG: Product[] = [
+  buildCurtain({
+    id: 'curtain-veil-linen',
+    slug: 'veil-linen',
+    name: 'Veil Linen',
+    tagline: 'Light, redrawn',
+    description: 'Floor-to-ceiling linen drapery, tailored to the millimetre.',
+    kind: 'drape',
+    tags: tagify('editors-pick'),
+    collections: ['signature', 'premium'],
+    basePrice: 12500
+  }),
+  buildCurtain({
+    name: 'Veil Sheer',
+    tagline: 'Diffused daylight',
+    description: 'Sheer linen diffusion drape.',
+    kind: 'sheer',
+    collections: ['premium']
+  }),
+  buildCurtain({
+    name: 'Veil Velvet',
+    tagline: 'Opera velvet',
+    description: 'Heavy-weight velvet drape with rich fall.',
+    kind: 'velvet',
+    tags: tagify('editors-pick'),
+    collections: ['premium']
+  }),
+  buildCurtain({
+    name: 'Veil Blackout',
+    tagline: 'Total darkness',
+    description: 'Blackout drape for cinema rooms and bedrooms.',
+    kind: 'blackout',
+    tags: tagify('hotel-grade'),
+    collections: ['hotel-grade']
+  }),
+  buildCurtain({
+    name: 'Veil Motorised',
+    tagline: 'App-controlled',
+    description: 'Motorised silent-rail system with app + remote control.',
+    kind: 'motorized',
+    tags: tagify('trending', 'hotel-grade'),
+    collections: ['trending', 'hotel-grade']
+  })
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// MASTER CATALOG
+// ═══════════════════════════════════════════════════════════════════
 
 export const CATALOG: Product[] = [
-  SOFA_ATELIER,
-  CHAIR_LUNE,
-  BED_NOCTURNE,
-  MATTRESS_AURA,
-  CURTAIN_VEIL,
-  HEADBOARD_ORACLE
+  ...SOFA_CATALOG,
+  ...CHAIR_CATALOG,
+  ...BED_CATALOG,
+  ...HEADBOARD_CATALOG,
+  ...MATTRESS_CATALOG,
+  ...CURTAIN_CATALOG
 ];
+
+// ─────────────────────────────────────────────────────────────────────
+// LOOKUPS
+// ─────────────────────────────────────────────────────────────────────
 
 export const getProduct = (id: string) => CATALOG.find((p) => p.id === id);
 export const getProductBySlug = (slug: string) => CATALOG.find((p) => p.slug === slug);
-export const getProductsByCategory = (category: Product['category']) =>
+export const getProductsByCategory = (category: ProductCategory) =>
   CATALOG.filter((p) => p.category === category);
 
-/** The flagship sofa that powers the Phase 1 prototype configurator. */
-export const SOFA_PROTOTYPE = SOFA_ATELIER;
+export const getProductsByStyle = (style: ProductStyle) =>
+  CATALOG.filter((p) => p.style === style);
+
+export const getProductsByTag = (tag: ProductTag) =>
+  CATALOG.filter((p) => p.tags?.includes(tag));
+
+export const getProductsByCollection = (collectionId: string) =>
+  CATALOG.filter((p) => p.collections?.includes(collectionId));
+
+/** Flagship sofa kept as Phase 1 contract. */
+export const SOFA_PROTOTYPE = getProduct('sofa-atelier-signature') ?? SOFA_CATALOG[0];
+
+/** Entry flagships for each category — used by the /configurator index. */
+export const FLAGSHIPS: Record<ProductCategory, Product | undefined> = {
+  sofa: getProduct('sofa-atelier-signature') ?? SOFA_CATALOG[0],
+  chair: getProduct('chair-lune-lounge') ?? CHAIR_CATALOG[0],
+  bed: getProduct('bed-nocturne-carved-heritage') ?? BED_CATALOG[0],
+  'hydraulic-bed': BED_CATALOG.find((b) => b.category === 'hydraulic-bed') ?? BED_CATALOG[1],
+  headboard: getProduct('headboard-oracle-fluted') ?? HEADBOARD_CATALOG[0],
+  mattress: getProduct('mattress-aura-latex') ?? MATTRESS_CATALOG[0],
+  curtain: getProduct('curtain-veil-linen') ?? CURTAIN_CATALOG[0],
+  deewan: undefined,
+  custom: undefined
+};
+
+/** Counts — surfaced on admin + trust strips. */
+export const CATALOG_COUNTS = {
+  total: CATALOG.length,
+  sofa: SOFA_CATALOG.length,
+  chair: CHAIR_CATALOG.length,
+  bed: BED_CATALOG.length,
+  headboard: HEADBOARD_CATALOG.length,
+  mattress: MATTRESS_CATALOG.length,
+  curtain: CURTAIN_CATALOG.length
+};
