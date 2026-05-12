@@ -1,13 +1,11 @@
 'use client';
 
-import { Zap, ZapOff, Gauge, Sparkles, RefreshCw } from 'lucide-react';
+import { Zap, Gauge, Sparkles, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useConfiguratorStore, type RenderQuality } from '@/lib/state/configurator';
 
 /**
- * StageControls — floating toolbar over the 3D canvas.
- *
- * Controls auto-rotate and GPU quality tier.
+ * StageControls — render quality + auto-rotate, light theme.
  */
 export function StageControls() {
   const quality = useConfiguratorStore((s) => s.renderQuality);
@@ -22,7 +20,7 @@ export function StageControls() {
   ];
 
   return (
-    <div className="pointer-events-auto flex items-center gap-1 glass-dark border border-gold-500/15 p-1">
+    <div className="pointer-events-auto flex items-center gap-1 glass-dark p-1">
       {qualities.map(({ id, label, Icon }) => {
         const active = quality === id;
         return (
@@ -32,9 +30,7 @@ export function StageControls() {
             aria-label={`Render quality · ${label}`}
             className={cn(
               'flex items-center gap-2 px-2.5 py-1.5 text-[9px] uppercase tracking-luxe transition-colors',
-              active
-                ? 'bg-gold-500/15 text-gold-100'
-                : 'text-cream-200/60 hover:text-cream-100'
+              active ? 'bg-pewter-800 text-ivory-50' : 'text-pewter-600 hover:text-walnut-500'
             )}
           >
             <Icon className="h-3 w-3" />
@@ -43,16 +39,14 @@ export function StageControls() {
         );
       })}
 
-      <span className="mx-1 h-4 w-px bg-obsidian-600" />
+      <span className="mx-1 h-4 w-px bg-pewter-300" />
 
       <button
         onClick={() => setAutoRotate(!autoRotate)}
         aria-label="Toggle auto-rotate"
         className={cn(
           'flex items-center gap-2 px-2.5 py-1.5 text-[9px] uppercase tracking-luxe transition-colors',
-          autoRotate
-            ? 'bg-gold-500/15 text-gold-100'
-            : 'text-cream-200/60 hover:text-cream-100'
+          autoRotate ? 'bg-pewter-800 text-ivory-50' : 'text-pewter-600 hover:text-walnut-500'
         )}
       >
         <RefreshCw className={cn('h-3 w-3', autoRotate && 'animate-spin-slow')} />

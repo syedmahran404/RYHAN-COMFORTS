@@ -4,16 +4,16 @@ import * as React from 'react';
 import { cn } from '@/lib/utils/cn';
 
 /**
- * Luxury Card — glass-bevelled container used across collections,
- * configurator HUD, and pricing summaries.
+ * Editorial paper card — ivory bevelled container used across
+ * collections, configurator HUD, and pricing summaries.
  */
 export const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        'group relative overflow-hidden border border-obsidian-600/60 bg-obsidian-800/40 shadow-luxe backdrop-blur-sm',
-        'before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/[0.04] before:to-transparent',
+        'group relative overflow-hidden border border-pewter-300/70 bg-ivory-50 shadow-soft',
+        'before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/60 before:to-transparent',
         'after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-gold-line',
         className
       )}
@@ -37,7 +37,7 @@ export const CardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn('font-display text-2xl text-cream-100 tracking-tight', className)}
+    className={cn('font-display text-2xl text-pewter-700 tracking-tight', className)}
     {...props}
   />
 ));
@@ -49,7 +49,7 @@ export const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn('mt-2 text-sm leading-relaxed text-cream-200/70', className)}
+    className={cn('mt-2 text-sm leading-relaxed text-pewter-500', className)}
     {...props}
   />
 ));
@@ -69,7 +69,7 @@ export const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('relative flex items-center gap-3 border-t border-obsidian-600/70 p-6', className)}
+    className={cn('relative flex items-center gap-3 border-t border-pewter-300/60 p-6', className)}
     {...props}
   />
 ));

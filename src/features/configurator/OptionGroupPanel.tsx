@@ -12,12 +12,7 @@ interface Props {
 }
 
 /**
- * OptionGroupPanel — renders a single configurable group.
- *
- * Phase 2 adds:
- *   · Swatch grid view for upholstery (visual > 8 items)
- *   · Tier badge (signature / premium / atelier) pulled from option.meta
- *   · Compact range/count inline label
+ * OptionGroupPanel — light-theme editorial option selector.
  */
 export function OptionGroupPanel({ group, value, onChange }: Props) {
   if (group.kind === 'single') {
@@ -39,18 +34,18 @@ export function OptionGroupPanel({ group, value, onChange }: Props) {
                   className={cn(
                     'group flex items-center gap-4 border p-3 text-left transition-all duration-300',
                     active
-                      ? 'border-gold-400/70 bg-gold-500/5 shadow-glow'
-                      : 'border-obsidian-600/70 hover:border-gold-500/40'
+                      ? 'border-champagne-300 bg-ivory-100 shadow-soft'
+                      : 'border-pewter-300/70 bg-ivory-50 hover:border-champagne-300/60'
                   )}
                 >
                   {opt.visual?.startsWith('#') && <Swatch color={opt.visual} size={32} />}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <p className="truncate text-sm text-cream-50">{opt.label}</p>
+                      <p className="truncate text-sm text-pewter-800">{opt.label}</p>
                       {renderTierBadge(opt)}
                     </div>
                     {opt.description && (
-                      <p className="mt-0.5 truncate text-[11px] text-cream-200/60">
+                      <p className="mt-0.5 truncate text-[11px] text-pewter-500">
                         {opt.description}
                       </p>
                     )}
@@ -59,10 +54,10 @@ export function OptionGroupPanel({ group, value, onChange }: Props) {
                     className={cn(
                       'font-mono text-[11px] tabular-nums',
                       opt.priceDelta > 0
-                        ? 'text-gold-200'
+                        ? 'text-walnut-500'
                         : opt.priceDelta < 0
-                          ? 'text-red-300/80'
-                          : 'text-cream-200/50'
+                          ? 'text-red-500/80'
+                          : 'text-pewter-400'
                     )}
                   >
                     {opt.priceDelta === 0
@@ -92,7 +87,7 @@ export function OptionGroupPanel({ group, value, onChange }: Props) {
             suffix={group.range.unitLabel}
             onChange={(v) => onChange(v)}
           />
-          <p className="mt-3 text-[10px] uppercase tracking-luxe text-cream-200/50">
+          <p className="mt-3 text-[10px] uppercase tracking-luxe text-pewter-400">
             Base · {group.range.baseUnit}
             {group.range.unitLabel ? ` ${group.range.unitLabel}` : ''} · +
             {formatINR(group.range.pricePerUnit)} per unit
@@ -108,8 +103,8 @@ export function OptionGroupPanel({ group, value, onChange }: Props) {
 function Header({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="h-px w-6 bg-gold-400/60" />
-      <h4 className="text-[10px] uppercase tracking-luxe text-gold-200">{label}</h4>
+      <span className="h-px w-6 bg-champagne-300" />
+      <h4 className="text-[10px] uppercase tracking-luxe text-walnut-500">{label}</h4>
     </div>
   );
 }
@@ -117,11 +112,12 @@ function Header({ label }: { label: string }) {
 function Swatch({ color, size = 36, active = false }: { color: string; size?: number; active?: boolean }) {
   return (
     <span
-      className={cn('relative shrink-0 border', active ? 'border-gold-300' : 'border-obsidian-600')}
+      className={cn(
+        'relative shrink-0 border shadow-bevel',
+        active ? 'border-champagne-300' : 'border-pewter-300/70'
+      )}
       style={{ width: size, height: size, backgroundColor: color }}
-    >
-      <span className="absolute inset-0 bg-gradient-to-br from-white/10 to-black/40" />
-    </span>
+    />
   );
 }
 
@@ -147,29 +143,27 @@ function SwatchGrid({
               aria-label={opt.label}
               title={`${opt.label}${opt.priceDelta ? ` · +${formatINR(opt.priceDelta)}` : ''}`}
               className={cn(
-                'relative aspect-square border transition-all duration-300',
+                'relative aspect-square border transition-all duration-300 shadow-bevel',
                 active
-                  ? 'border-gold-300 shadow-glow ring-1 ring-gold-400/40'
-                  : 'border-obsidian-600/60 hover:border-gold-500/40'
+                  ? 'border-champagne-300 ring-2 ring-champagne-200/70'
+                  : 'border-pewter-300/60 hover:border-champagne-300/60'
               )}
               style={{ backgroundColor: opt.visual ?? 'transparent' }}
-            >
-              <span className="absolute inset-0 bg-gradient-to-br from-white/10 to-black/40" />
-            </button>
+            />
           );
         })}
       </div>
       {selected && (
-        <div className="flex items-center justify-between gap-4 border border-obsidian-600/60 bg-obsidian-900/40 p-3">
+        <div className="flex items-center justify-between gap-4 border border-pewter-300/60 bg-ivory-100 p-3">
           <div className="flex items-center gap-3">
             <Swatch color={selected.visual ?? '#000'} size={28} />
             <div>
               <div className="flex items-center gap-2">
-                <p className="text-sm text-cream-50">{selected.label}</p>
+                <p className="text-sm text-pewter-800">{selected.label}</p>
                 {renderTierBadge(selected)}
               </div>
               {selected.description && (
-                <p className="text-[10px] uppercase tracking-luxe text-cream-200/50">
+                <p className="text-[10px] uppercase tracking-luxe text-pewter-400">
                   {selected.description}
                 </p>
               )}
@@ -179,10 +173,10 @@ function SwatchGrid({
             className={cn(
               'font-mono text-[11px] tabular-nums',
               selected.priceDelta > 0
-                ? 'text-gold-200'
+                ? 'text-walnut-500'
                 : selected.priceDelta < 0
-                  ? 'text-red-300/80'
-                  : 'text-cream-200/50'
+                  ? 'text-red-500/80'
+                  : 'text-pewter-400'
             )}
           >
             {selected.priceDelta === 0
@@ -203,8 +197,8 @@ function renderTierBadge(opt: Option) {
       className={cn(
         'text-[8px] uppercase tracking-luxe border px-1.5 py-0.5',
         tier === 'atelier'
-          ? 'border-gold-300/50 text-gold-200'
-          : 'border-cream-200/30 text-cream-200/70'
+          ? 'border-champagne-300 bg-champagne-100/50 text-walnut-500'
+          : 'border-pewter-300/70 bg-ivory-50 text-pewter-500'
       )}
     >
       {tier}

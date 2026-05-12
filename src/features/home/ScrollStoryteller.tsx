@@ -1,51 +1,51 @@
 'use client';
 
+import Image from 'next/image';
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Reveal } from '@/components/motion/Reveal';
-
-/**
- * ScrollStoryteller — a scroll-pinned story panel.
- *
- * Three phases of the atelier story fade in/out as the user scrolls through
- * the section. Uses Framer's `useScroll` with a pinned-height container.
- */
+import { ROOM_STAGING } from '@/lib/data/imagery';
 
 const CHAPTERS = [
   {
     k: '2000',
     title: 'The first bench',
     body:
-      'Azam Pasha cuts the first Ryhan bench — a teak piece for a Jayanagar living room. The atelier is born.'
+      'Azam Pasha cuts the first Ryhan bench — a teak piece for a Jayanagar living room. The atelier is born.',
+    img: ROOM_STAGING[5]
   },
   {
     k: '2008',
     title: 'Into export',
     body:
-      'Our first commission crosses a border — a Chesterfield for a buyer in Dubai. Moisture-proofed frames become a standard.'
+      'Our first commission crosses a border — a Chesterfield for a buyer in Dubai. Moisture-proofed frames become a standard.',
+    img: ROOM_STAGING[2]
   },
   {
     k: '2014',
     title: 'The carver joins',
     body:
-      'Master carver Aslam joins the atelier. The Royal Carved collection begins with the first Maharaja Throne.'
+      'Master carver Aslam joins the atelier. The Royal Carved collection begins with the first Maharaja Throne.',
+    img: ROOM_STAGING[3]
   },
   {
     k: '2020',
     title: 'Under 10 weeks',
     body:
-      'We reduce turnaround from 14 weeks to 10 without compromising a single cut or stitch.'
+      'We reduce turnaround from 14 weeks to 10 without compromising a single cut or stitch.',
+    img: ROOM_STAGING[0]
   },
   {
     k: '2026',
     title: 'Live atelier',
     body:
-      'We open our live 3D configurator — the same schema-driven system our craftsmen build against.'
+      'We open our live configurator — the same schema-driven system our craftsmen build against.',
+    img: ROOM_STAGING[1]
   }
 ];
 
 export function ScrollStoryteller() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start']
@@ -54,24 +54,24 @@ export function ScrollStoryteller() {
   return (
     <section
       ref={ref}
-      className="relative isolate overflow-hidden"
+      className="relative isolate overflow-hidden bg-ivory-50"
       style={{ height: `${CHAPTERS.length * 90}svh` }}
     >
       <div className="sticky top-0 flex h-svh items-center overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-walnut-grain opacity-60" />
+        <div className="absolute inset-0 -z-10 bg-ivory-paper opacity-60" />
         <div className="noise-overlay" />
-        <BackgroundScroll progress={scrollYProgress} />
 
-        <div className="luxe-container relative grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.2fr]">
+        <div className="luxe-container relative grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.1fr]">
+          {/* Left: intro + chapter text */}
           <div className="max-w-md">
             <p className="eyebrow">The atelier timeline</p>
             <Reveal>
-              <h2 className="mt-6 font-display text-display text-cream-50 text-balance">
+              <h2 className="mt-6 font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-[1] text-pewter-800 text-balance">
                 Five chapters, <span className="gold-text italic">one hand.</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="mt-6 text-sm leading-relaxed text-cream-200/70 text-pretty">
+              <p className="mt-6 text-sm leading-relaxed text-pewter-500 text-pretty">
                 Every Ryhan piece is the continuation of a longer story. Scroll to read the
                 seasons that shaped the atelier.
               </p>
@@ -119,31 +119,26 @@ function Chapter({
   return (
     <motion.article
       style={{ opacity, y }}
-      className="absolute inset-0 flex flex-col justify-center"
+      className="absolute inset-0 flex flex-col justify-center gap-6"
     >
-      <p className="font-display text-[8rem] leading-none text-gold-500/25 tabular-nums">
-        {chapter.k}
-      </p>
-      <h3 className="-mt-4 font-display text-4xl text-cream-50">{chapter.title}</h3>
-      <p className="mt-4 max-w-lg text-base leading-relaxed text-cream-200/70 text-pretty">
-        {chapter.body}
-      </p>
+      <div className="relative aspect-[5/4] w-full overflow-hidden shadow-editorial">
+        <Image
+          src={chapter.img.url}
+          alt={chapter.img.alt}
+          fill
+          sizes="(min-width: 1024px) 45vw, 100vw"
+          className="object-cover"
+        />
+        <div className="absolute left-4 top-4 glass-dark px-3 py-1.5 font-display text-xs text-walnut-500 tabular-nums">
+          {chapter.k}
+        </div>
+      </div>
+      <div>
+        <h3 className="font-display text-3xl text-pewter-800">{chapter.title}</h3>
+        <p className="mt-3 max-w-lg text-base leading-relaxed text-pewter-500 text-pretty">
+          {chapter.body}
+        </p>
+      </div>
     </motion.article>
-  );
-}
-
-function BackgroundScroll({
-  progress
-}: {
-  progress: ReturnType<typeof useScroll>['scrollYProgress'];
-}) {
-  const y = useTransform(progress, [0, 1], ['0%', '-40%']);
-  return (
-    <motion.div
-      style={{ y }}
-      className="pointer-events-none absolute inset-0 -z-20 opacity-60"
-    >
-      <div className="absolute left-1/4 top-1/2 h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-walnut-700/20 via-transparent to-gold-500/10" />
-    </motion.div>
   );
 }

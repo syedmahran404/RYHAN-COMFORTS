@@ -33,13 +33,13 @@ const QUOTES = [
 
 export function Testimonials() {
   return (
-    <section className="relative border-y border-obsidian-600/60 py-24">
+    <section className="relative border-y border-pewter-300/70 bg-ivory-100 py-24">
       <div className="luxe-container mb-14">
         <div className="flex items-end justify-between">
           <div>
             <p className="eyebrow">Voices from our rooms</p>
             <Reveal>
-              <h2 className="mt-6 font-display text-display text-cream-50 text-balance">
+              <h2 className="mt-6 font-display text-display text-pewter-800 text-balance">
                 Heirlooms, <span className="gold-text italic">in their homes.</span>
               </h2>
             </Reveal>
@@ -51,23 +51,21 @@ export function Testimonials() {
         {QUOTES.map((q) => (
           <figure
             key={q.author}
-            className="flex w-[380px] shrink-0 flex-col gap-6 border border-obsidian-600/70 bg-obsidian-900/60 p-8 backdrop-blur-sm"
+            className="flex w-[380px] shrink-0 flex-col gap-6 border border-pewter-300/70 bg-ivory-50 p-8 shadow-soft"
           >
             <svg
               viewBox="0 0 40 40"
-              className="h-7 w-7 text-gold-400/80"
+              className="h-7 w-7 text-champagne-300"
               fill="currentColor"
             >
               <path d="M14 10c-5 0-9 4-9 9v11h10V20H9c0-3 2-5 5-5zm16 0c-5 0-9 4-9 9v11h10V20h-6c0-3 2-5 5-5z" />
             </svg>
-            <blockquote className="font-display text-xl leading-relaxed text-cream-100 text-pretty">
+            <blockquote className="font-display text-xl leading-relaxed text-pewter-700 text-pretty">
               "{q.q}"
             </blockquote>
             <figcaption className="mt-auto">
-              <p className="font-display text-base text-gold-200">{q.author}</p>
-              <p className="mt-1 text-[10px] uppercase tracking-luxe text-cream-200/50">
-                {q.place}
-              </p>
+              <p className="font-display text-base text-walnut-500">{q.author}</p>
+              <p className="mt-1 text-[10px] uppercase tracking-luxe text-pewter-400">{q.place}</p>
             </figcaption>
           </figure>
         ))}

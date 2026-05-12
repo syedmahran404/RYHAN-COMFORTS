@@ -4,10 +4,7 @@ import { useConfiguratorStore } from '@/lib/state/configurator';
 import { Slider } from '@/components/ui/Slider';
 
 /**
- * DimensionsPanel — live W × D × H sliders.
- *
- * Bound to store.dimensions; each axis is range-clamped by the product's
- * `dimensions.wRange / dRange / hRange` (falling back to sensible defaults).
+ * DimensionsPanel — live W × D × H sliders (light theme).
  */
 export function DimensionsPanel() {
   const product = useConfiguratorStore((s) => s.product);
@@ -26,8 +23,8 @@ export function DimensionsPanel() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <span className="h-px w-6 bg-gold-400/60" />
-        <h4 className="text-[10px] uppercase tracking-luxe text-gold-200">Dimensions</h4>
+        <span className="h-px w-6 bg-champagne-300" />
+        <h4 className="text-[10px] uppercase tracking-luxe text-walnut-500">Dimensions</h4>
       </div>
 
       <Slider
@@ -58,7 +55,7 @@ export function DimensionsPanel() {
         onChange={(v) => setDimension('h', v)}
       />
 
-      <p className="text-[10px] uppercase tracking-luxe text-cream-200/50">
+      <p className="text-[10px] uppercase tracking-luxe text-pewter-400">
         Tolerances within ± 2 cm · measured in our atelier before cutting
       </p>
     </div>

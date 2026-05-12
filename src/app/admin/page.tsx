@@ -38,10 +38,10 @@ export default function AdminPage() {
         <div className="flex items-end justify-between">
           <div>
             <Badge>Admin · Read-only · Phase 2</Badge>
-            <h1 className="mt-6 font-display text-display text-cream-50 text-balance">
+            <h1 className="mt-6 font-display text-display text-pewter-800 text-balance">
               The <span className="gold-text italic">atelier</span> dashboard.
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-cream-200/70">
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-pewter-500">
               An honest overview of everything the catalogue already knows — products,
               materials, foams, collections and pricing rules. Phase 3 opens these to writes
               via the same Zod schemas.
@@ -50,7 +50,7 @@ export default function AdminPage() {
           <div className="hidden items-center gap-2 lg:flex">
             <Link
               href="/"
-              className="text-[10px] uppercase tracking-luxe text-cream-200/60 hover:text-gold-200"
+              className="text-[10px] uppercase tracking-luxe text-pewter-500 hover:text-walnut-500"
             >
               ← Back to site
             </Link>
@@ -77,17 +77,17 @@ export default function AdminPage() {
                   className="flex items-center justify-between gap-4 py-3 text-sm"
                 >
                   <div className="min-w-0">
-                    <p className="truncate text-cream-50">{p.name}</p>
-                    <p className="mt-0.5 truncate text-[10px] uppercase tracking-luxe text-cream-200/45">
+                    <p className="truncate text-pewter-800">{p.name}</p>
+                    <p className="mt-0.5 truncate text-[10px] uppercase tracking-luxe text-pewter-400">
                       {p.category} · {p.style ?? '—'} · {p.complexity ?? '—'}
                       {p.tags?.length ? ` · ${p.tags.join(', ')}` : ''}
                     </p>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className="font-mono text-[11px] text-gold-200 tabular-nums">
+                    <span className="font-mono text-[11px] text-walnut-500 tabular-nums">
                       {formatINR(p.basePrice)}
                     </span>
-                    <span className="text-[9px] uppercase tracking-luxe text-cream-200/50">
+                    <span className="text-[9px] uppercase tracking-luxe text-pewter-400">
                       {p.groups.length} groups
                     </span>
                   </div>
@@ -105,7 +105,7 @@ export default function AdminPage() {
               {ALL_MATERIALS.map((m) => (
                 <div
                   key={m.id}
-                  className="relative aspect-square border border-obsidian-600/60"
+                  className="relative aspect-square border border-pewter-300/60"
                   style={{ backgroundColor: m.color }}
                   title={`${m.name} · ${m.kind} · ${m.tier}`}
                 >
@@ -120,15 +120,15 @@ export default function AdminPage() {
               {FOAMS.map((f) => (
                 <div
                   key={f.id}
-                  className="flex items-center justify-between border border-obsidian-600/60 bg-obsidian-900/40 p-3"
+                  className="flex items-center justify-between border border-pewter-300/60 bg-ivory-50/40 p-3"
                 >
                   <div>
-                    <p className="text-[11px] text-cream-50">{f.name}</p>
-                    <p className="mt-0.5 text-[9px] uppercase tracking-luxe text-cream-200/50">
+                    <p className="text-[11px] text-pewter-800">{f.name}</p>
+                    <p className="mt-0.5 text-[9px] uppercase tracking-luxe text-pewter-400">
                       {f.slot} · {f.tier}
                     </p>
                   </div>
-                  <span className="font-mono text-[10px] text-gold-200">
+                  <span className="font-mono text-[10px] text-walnut-500">
                     {formatINR(f.pricePerDensity)}/d
                   </span>
                 </div>
@@ -145,8 +145,8 @@ export default function AdminPage() {
               {CATALOG.filter((p) => p.pricing).map((p) => (
                 <div key={p.id} className="flex items-center justify-between gap-4 py-3">
                   <div className="min-w-0">
-                    <p className="truncate text-cream-50">{p.name}</p>
-                    <p className="mt-0.5 text-[10px] uppercase tracking-luxe text-cream-200/45">
+                    <p className="truncate text-pewter-800">{p.name}</p>
+                    <p className="mt-0.5 text-[10px] uppercase tracking-luxe text-pewter-400">
                       {summarizeRule(p.pricing)}
                     </p>
                   </div>
@@ -161,10 +161,10 @@ export default function AdminPage() {
                 <Link
                   key={c.id}
                   href={`/collections/${c.slug}`}
-                  className="group border border-obsidian-600/60 bg-obsidian-900/40 p-3 transition-colors hover:border-gold-500/40"
+                  className="group border border-pewter-300/60 bg-ivory-50/40 p-3 transition-colors hover:border-champagne-300/40"
                 >
-                  <p className="text-cream-50">{c.label}</p>
-                  <p className="mt-0.5 text-[10px] uppercase tracking-luxe text-cream-200/50">
+                  <p className="text-pewter-800">{c.label}</p>
+                  <p className="mt-0.5 text-[10px] uppercase tracking-luxe text-pewter-400">
                     {c.subtitle}
                   </p>
                 </Link>
@@ -173,7 +173,7 @@ export default function AdminPage() {
           </Section>
 
           <Section Icon={Database} title="Phase 3 roadmap">
-            <ul className="space-y-2 text-sm text-cream-200/75">
+            <ul className="space-y-2 text-sm text-pewter-500">
               <li>Auth (NextAuth) + role-based access for admins.</li>
               <li>Prisma + Postgres persistence — writes against the Zod schemas used above.</li>
               <li>Public / internal Quote inbox with PDF render + email dispatch.</li>
@@ -183,9 +183,9 @@ export default function AdminPage() {
           </Section>
         </div>
 
-        <div className="mt-14 flex items-center gap-3 text-[10px] uppercase tracking-luxe text-cream-200/50">
-          <Settings2 className="h-3.5 w-3.5 text-gold-300" />
-          Configuration is read from <code className="text-gold-200">src/lib/data/*</code>
+        <div className="mt-14 flex items-center gap-3 text-[10px] uppercase tracking-luxe text-pewter-400">
+          <Settings2 className="h-3.5 w-3.5 text-walnut-500" />
+          Configuration is read from <code className="text-walnut-500">src/lib/data/*</code>
           · Phase 3 switches this to Postgres.
         </div>
       </div>
@@ -203,10 +203,10 @@ function StatCard({
   value: number;
 }) {
   return (
-    <div className="glass-dark border border-gold-500/10 p-6">
-      <Icon className="h-4 w-4 text-gold-300" />
-      <p className="mt-6 font-display text-4xl text-cream-50 tabular-nums">{value}</p>
-      <p className="mt-1 text-[10px] uppercase tracking-luxe text-cream-200/60">{label}</p>
+    <div className="glass-dark border border-champagne-300/10 p-6">
+      <Icon className="h-4 w-4 text-walnut-500" />
+      <p className="mt-6 font-display text-4xl text-pewter-800 tabular-nums">{value}</p>
+      <p className="mt-1 text-[10px] uppercase tracking-luxe text-pewter-500">{label}</p>
     </div>
   );
 }
@@ -223,11 +223,11 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="glass-dark border border-gold-500/10 p-6">
+    <div className="glass-dark border border-champagne-300/10 p-6">
       <div className="mb-4 flex items-center gap-3">
-        <Icon className="h-4 w-4 text-gold-300" />
-        <p className="text-[10px] uppercase tracking-luxe text-gold-200">{title}</p>
-        {hint && <p className="ml-auto text-[10px] text-cream-200/50">{hint}</p>}
+        <Icon className="h-4 w-4 text-walnut-500" />
+        <p className="text-[10px] uppercase tracking-luxe text-walnut-500">{title}</p>
+        {hint && <p className="ml-auto text-[10px] text-pewter-400">{hint}</p>}
       </div>
       {children}
     </div>

@@ -121,6 +121,65 @@ const SUB_MODELS: Record<ProductStyle, SubModel[]> = {
     { id: 'mod-3', label: '3-Module', description: '3 interlocking blocks', priceDelta: 0 },
     { id: 'mod-5', label: '5-Module', description: '5 interlocking blocks', priceDelta: 18500 },
     { id: 'mod-7', label: '7-Module', description: '7 interlocking blocks', priceDelta: 34000 }
+  ],
+  'mid-century': [
+    { id: 'mid-tapered', label: 'Tapered Mid-Century', description: 'Walnut tapered legs', priceDelta: 0 },
+    { id: 'mid-bench', label: 'Bench Mid-Century', description: 'Single bench seat', priceDelta: 3500 }
+  ],
+  tuxedo: [
+    { id: 'tux-classic', label: 'Classic Tuxedo', description: 'Equal-height arm + back', priceDelta: 0 },
+    { id: 'tux-channel', label: 'Channel Tuxedo', description: 'Channel-stitched back', priceDelta: 4800 }
+  ],
+  lawson: [
+    { id: 'lawson-classic', label: 'Classic Lawson', description: 'Loose cushion ease', priceDelta: 0 },
+    { id: 'lawson-deep', label: 'Deep Lawson', description: 'Extra-deep seat', priceDelta: 3200 }
+  ],
+  camelback: [
+    { id: 'camel-georgian', label: 'Georgian Camelback', description: 'Arched crown back', priceDelta: 0 },
+    { id: 'camel-double', label: 'Double Camelback', description: 'Two-hump crown', priceDelta: 5500 }
+  ],
+  'english-roll-arm': [
+    { id: 'era-classic', label: 'English Roll Arm', description: 'Low-set back with rolled arms', priceDelta: 0 },
+    { id: 'era-studio', label: 'Studio English', description: 'Compact studio size', priceDelta: -2500 }
+  ],
+  'art-deco': [
+    { id: 'deco-parisian', label: 'Parisian Art Deco', description: 'Brass legs, geometric back', priceDelta: 0 },
+    { id: 'deco-gatsby', label: 'Gatsby', description: 'Large-scale geometric', priceDelta: 9500 }
+  ],
+  cloud: [
+    { id: 'cloud-3s', label: 'Cloud 3-seater', description: 'Down-fill pillowy depth', priceDelta: 0 },
+    { id: 'cloud-4s', label: 'Cloud 4-seater', description: 'Oversized cloud', priceDelta: 12500 }
+  ],
+  'hotel-lounge': [
+    { id: 'hotel-boutique', label: 'Boutique Hotel', description: 'Scaled for lobby lounges', priceDelta: 0 },
+    { id: 'hotel-grand', label: 'Grand Hotel', description: 'Full-room hospitality scale', priceDelta: 14500 }
+  ],
+  'low-profile': [
+    { id: 'low-arch', label: 'Architectural Low', description: 'Floor-grazing low', priceDelta: 0 }
+  ],
+  'japanese-minimal': [
+    { id: 'jm-floor', label: 'Floor Seat', description: 'Tatami floor-level', priceDelta: 0 },
+    { id: 'jm-low', label: 'Low Bench', description: 'Ultra-low bench', priceDelta: 2800 }
+  ],
+  sculpted: [
+    { id: 'sculpt-organic', label: 'Organic Sculpt', description: 'Artisan organic form', priceDelta: 0 },
+    { id: 'sculpt-museum', label: 'Museum Edition', description: 'One-off sculptural piece', priceDelta: 24500 }
+  ],
+  'velvet-lounge': [
+    { id: 'vl-deep', label: 'Deep Velvet Lounge', description: 'Velvet-wrapped deep seat', priceDelta: 0 },
+    { id: 'vl-piped', label: 'Piped Velvet', description: 'Gold-piped trim', priceDelta: 5200 }
+  ],
+  'floating-base': [
+    { id: 'float-plinth', label: 'Hidden Plinth', description: 'Suspended-look plinth', priceDelta: 0 },
+    { id: 'float-glow', label: 'Underglow Plinth', description: 'Ambient underglow LED', priceDelta: 6800 }
+  ],
+  'contemporary-luxury': [
+    { id: 'cl-editorial', label: 'Editorial Lounge', description: 'Modern luxe editorial', priceDelta: 0 },
+    { id: 'cl-gallery', label: 'Gallery Lounge', description: 'Oversized scale', priceDelta: 12500 }
+  ],
+  'signature-series': [
+    { id: 'sig-azam', label: 'Azam Signature', description: 'Signed by Azam Pasha', priceDelta: 0 },
+    { id: 'sig-mahran', label: 'Mahran Edition', description: 'Curated by Syed Mahran', priceDelta: 18500 }
   ]
 };
 
@@ -312,7 +371,22 @@ const COMPLEXITY_BY_STYLE: Record<ProductStyle, Complexity> = {
   recliner: 'detailed',
   sectional: 'detailed',
   'l-shape': 'clean',
-  modular: 'clean'
+  modular: 'clean',
+  'mid-century': 'clean',
+  tuxedo: 'detailed',
+  lawson: 'clean',
+  camelback: 'ornate',
+  'english-roll-arm': 'detailed',
+  'art-deco': 'ornate',
+  cloud: 'detailed',
+  'hotel-lounge': 'detailed',
+  'low-profile': 'clean',
+  'japanese-minimal': 'clean',
+  sculpted: 'masterwork',
+  'velvet-lounge': 'detailed',
+  'floating-base': 'detailed',
+  'contemporary-luxury': 'detailed',
+  'signature-series': 'masterwork'
 };
 
 const COMPLEXITY_MULTIPLIER: Record<Complexity, number> = {

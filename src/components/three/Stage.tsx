@@ -77,8 +77,8 @@ export function Stage({
           depth: true
         }}
       >
-        <color attach="background" args={['#060605']} />
-        <fog attach="fog" args={['#060605', 9, 22]} />
+        <color attach="background" args={['#faf6ee']} />
+        <fog attach="fog" args={['#faf6ee', 9, 22]} />
 
         <PerspectiveCamera makeDefault fov={38} position={camera} near={0.1} far={100} />
 
@@ -93,7 +93,7 @@ export function Stage({
               blur={q === 'high' ? 2.6 : 3.2}
               far={4}
               resolution={tuning.shadowRes}
-              color="#000000"
+              color="#4a4335"
             />
           )}
           <Preload all />

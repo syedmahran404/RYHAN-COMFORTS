@@ -108,7 +108,23 @@ export const ProductStyleSchema = z.enum([
   'recliner',
   'sectional',
   'l-shape',
-  'modular'
+  'modular',
+  // — new luxury typologies
+  'mid-century',
+  'tuxedo',
+  'lawson',
+  'camelback',
+  'english-roll-arm',
+  'art-deco',
+  'cloud',
+  'hotel-lounge',
+  'low-profile',
+  'japanese-minimal',
+  'sculpted',
+  'velvet-lounge',
+  'floating-base',
+  'contemporary-luxury',
+  'signature-series'
 ]);
 export type ProductStyle = z.infer<typeof ProductStyleSchema>;
 

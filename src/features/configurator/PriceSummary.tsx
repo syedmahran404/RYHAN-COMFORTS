@@ -9,11 +9,7 @@ import { useMemo, useState } from 'react';
 import { cn } from '@/lib/utils/cn';
 
 /**
- * PriceSummary — live quote breakdown.
- *
- * Phase 2:
- *   · Grouped lines by kind (option / foam / dimension / complexity / tag)
- *   · POST to /api/quote — gracefully falls back to WhatsApp if offline
+ * PriceSummary — light editorial quote panel.
  */
 export function PriceSummary() {
   const quote = useConfiguratorStore((s) => s.quote);
@@ -49,12 +45,11 @@ export function PriceSummary() {
         setConfirmed(data?.id ?? 'RC-QUOTE');
       }
     } catch {
-      /* swallow — fall through to WhatsApp */
+      /* fall through */
     } finally {
       setSubmitting(false);
     }
 
-    // Always open WhatsApp with a formatted summary for immediate consultation
     const msg = encodeURIComponent(
       `Hello Ryhan Comforts — I'd like to commission:\n\n${quote.product.name}\nTotal: ${formatINR(
         quote.total
@@ -64,11 +59,11 @@ export function PriceSummary() {
   };
 
   return (
-    <div className="glass-dark border border-gold-500/15 p-6">
+    <div className="paper-card p-6">
       <div className="flex items-end justify-between">
         <p className="eyebrow">Your commission</p>
         {confirmed && (
-          <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-luxe text-gold-200">
+          <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-luxe text-walnut-500">
             <CheckCircle2 className="h-3 w-3" /> Sent · {confirmed}
           </span>
         )}
@@ -82,23 +77,23 @@ export function PriceSummary() {
         {grouped.cmplx.length > 0 && <LineGroup label="Craft" lines={grouped.cmplx} />}
       </div>
 
-      <div className="mt-6 border-t border-obsidian-600/80 pt-6">
+      <div className="mt-6 border-t border-pewter-300/70 pt-6">
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-[10px] uppercase tracking-luxe text-cream-200/50">
+            <p className="text-[10px] uppercase tracking-luxe text-pewter-400">
               Estimated total
             </p>
-            <p className="mt-1 font-display text-4xl text-gold-200 tabular-nums">
+            <p className="mt-1 font-display text-4xl text-walnut-500 tabular-nums">
               <AnimatedNumber value={quote.total} />
             </p>
-            <p className="mt-1 text-[10px] uppercase tracking-luxe text-cream-200/40">
+            <p className="mt-1 text-[10px] uppercase tracking-luxe text-pewter-400">
               Taxes & delivery computed at commission
             </p>
           </div>
         </div>
 
         <div className="mt-6 flex gap-3">
-          <Button size="md" className="flex-1" onClick={onQuote} disabled={submitting}>
+          <Button size="md" variant="primary" className="flex-1" onClick={onQuote} disabled={submitting}>
             <Send className="h-4 w-4" />
             {submitting ? 'Sending…' : 'Request Quote'}
           </Button>
@@ -120,9 +115,9 @@ function LineGroup({
 }) {
   if (!lines.length) return null;
   return (
-    <div className={cn(label ? 'border-t border-obsidian-600/60 pt-4' : '')}>
+    <div className={cn(label ? 'border-t border-pewter-300/60 pt-4' : '')}>
       {label && (
-        <p className="mb-3 text-[10px] uppercase tracking-luxe text-gold-200/70">{label}</p>
+        <p className="mb-3 text-[10px] uppercase tracking-luxe text-walnut-500">{label}</p>
       )}
       <ul className="space-y-2.5">
         {lines.map((l) => (
@@ -131,10 +126,10 @@ function LineGroup({
             className="flex items-start justify-between gap-4 text-sm"
           >
             <div className="min-w-0">
-              <p className="text-[10px] uppercase tracking-luxe text-cream-200/50">{l.label}</p>
-              <p className="mt-0.5 truncate text-cream-100">{l.detail}</p>
+              <p className="text-[10px] uppercase tracking-luxe text-pewter-400">{l.label}</p>
+              <p className="mt-0.5 truncate text-pewter-700">{l.detail}</p>
             </div>
-            <span className="font-mono text-xs text-gold-200 tabular-nums">
+            <span className="font-mono text-xs text-walnut-500 tabular-nums">
               {l.amount > 0 ? '+' : ''}
               {formatINR(l.amount)}
             </span>

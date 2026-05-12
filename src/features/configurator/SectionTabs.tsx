@@ -29,10 +29,7 @@ const ICONS: Record<NonNullable<Section['icon']>, typeof Sparkles> = {
   sparkles: Sparkles
 };
 
-/**
- * SectionTabs — horizontal (or vertical) tab nav over the product's sections.
- * A schema-driven navigation component — reads Product.sections.
- */
+/** Schema-driven section navigation, light-theme. */
 export function SectionTabs({
   sections,
   orientation = 'horizontal'
@@ -65,16 +62,21 @@ export function SectionTabs({
             className={cn(
               'group relative flex shrink-0 items-center gap-3 border px-4 py-3 text-left transition-all duration-300',
               isActive
-                ? 'border-gold-400/70 bg-gold-500/10 text-cream-50'
-                : 'border-obsidian-600/70 text-cream-200/60 hover:border-gold-500/40 hover:text-cream-100'
+                ? 'border-champagne-300 bg-ivory-50 text-pewter-800 shadow-soft'
+                : 'border-pewter-300/60 bg-ivory-100 text-pewter-500 hover:border-champagne-300/60 hover:text-pewter-700'
             )}
           >
-            <Icon className={cn('h-4 w-4', isActive ? 'text-gold-200' : 'text-cream-200/40')} />
+            <Icon
+              className={cn(
+                'h-4 w-4',
+                isActive ? 'text-walnut-500' : 'text-pewter-400'
+              )}
+            />
             <span className="text-[10px] uppercase tracking-luxe">{s.label}</span>
             {isActive && (
               <motion.span
                 layoutId="section-underline"
-                className="absolute inset-x-0 bottom-0 h-px bg-gold-300"
+                className="absolute inset-x-0 bottom-0 h-px bg-champagne-300"
                 transition={{ type: 'spring', stiffness: 340, damping: 28 }}
               />
             )}

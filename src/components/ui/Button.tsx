@@ -4,18 +4,32 @@ import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils/cn';
 
+/**
+ * Editorial light-luxury button.
+ *
+ * Variants:
+ *   · primary  — ink-on-ivory with a hover wash
+ *   · gold     — champagne gradient (hero CTA)
+ *   · outline  — walnut border on ivory
+ *   · ghost    — link-style
+ *   · dark     — ink block (reverse surfaces)
+ *   · link     — underlined inline
+ */
 const buttonVariants = cva(
-  'relative inline-flex items-center justify-center gap-2 font-sans text-xs uppercase tracking-luxe transition-all duration-500 ease-silk disabled:opacity-40 disabled:cursor-not-allowed select-none',
+  'relative inline-flex items-center justify-center gap-2 font-sans text-[11px] uppercase tracking-luxe transition-all duration-500 ease-silk disabled:opacity-40 disabled:cursor-not-allowed select-none',
   {
     variants: {
       variant: {
         primary:
-          'bg-gradient-to-b from-gold-200 via-gold-300 to-gold-500 text-obsidian-900 shadow-luxe hover:from-gold-100 hover:via-gold-200 hover:to-gold-400 hover:shadow-glow',
+          'bg-pewter-700 text-ivory-50 hover:bg-pewter-600 shadow-soft hover:shadow-editorial',
+        gold:
+          'bg-gradient-to-b from-champagne-200 via-champagne-300 to-champagne-500 text-pewter-700 shadow-soft hover:shadow-glow',
         outline:
-          'border border-gold-300/40 text-gold-100 hover:border-gold-200 hover:text-gold-50 hover:bg-gold-500/5',
-        ghost: 'text-foreground/80 hover:text-gold-100',
-        dark: 'bg-obsidian-800 text-cream-100 border border-obsidian-600 hover:bg-obsidian-700 hover:border-gold-500/40',
-        link: 'text-gold-200 hover:text-gold-100 underline-offset-4 hover:underline'
+          'border border-pewter-300 bg-transparent text-pewter-700 hover:border-champagne-300 hover:text-walnut-500 hover:bg-ivory-50',
+        ghost: 'text-pewter-600 hover:text-walnut-500',
+        dark:
+          'bg-pewter-800 text-ivory-50 border border-pewter-700 hover:bg-pewter-700 hover:border-champagne-300/50',
+        link: 'text-walnut-500 hover:text-walnut-400 underline-offset-4 hover:underline'
       },
       size: {
         sm: 'h-9 px-4 text-[10px]',
@@ -41,11 +55,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, children, ...props }, ref) => {
     return (
       <button ref={ref} className={cn(buttonVariants({ variant, size }), className)} {...props}>
-        {variant === 'primary' && (
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 overflow-hidden"
-          >
+        {variant === 'gold' && (
+          <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
             <span className="shimmer absolute inset-0" />
           </span>
         )}

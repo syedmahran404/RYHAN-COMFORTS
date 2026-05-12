@@ -106,7 +106,22 @@ export const STYLE_META: Record<
   recliner: { label: 'Recliner', descriptor: 'Engineered reclining modules', premium: 14500 },
   sectional: { label: 'Sectional', descriptor: 'Multi-module large-format', premium: 16000 },
   'l-shape': { label: 'L-Shape', descriptor: 'Corner-integrated', premium: 9500 },
-  modular: { label: 'Modular', descriptor: 'Reconfigurable blocks', premium: 12000 }
+  modular: { label: 'Modular', descriptor: 'Reconfigurable blocks', premium: 12000 },
+  'mid-century': { label: 'Mid Century', descriptor: 'Tapered legs, tailored proportion', premium: 4500 },
+  tuxedo: { label: 'Tuxedo', descriptor: 'Arm + back at equal height', premium: 6500 },
+  lawson: { label: 'Lawson', descriptor: 'Deep seat, back cushions looser than frame', premium: 3500 },
+  camelback: { label: 'Camelback', descriptor: 'Arched crown back', heritage: 'Georgian', premium: 8500 },
+  'english-roll-arm': { label: 'English Roll Arm', descriptor: 'Low set-back rolled arm', premium: 7200 },
+  'art-deco': { label: 'Art Deco', descriptor: 'Geometry, brass accents', heritage: '1920s Paris', premium: 13500 },
+  cloud: { label: 'Cloud', descriptor: 'Down-filled pillowy depth', premium: 11000 },
+  'hotel-lounge': { label: 'Hotel Lounge', descriptor: 'Contract-grade hospitality scale', premium: 8500 },
+  'low-profile': { label: 'Low Profile', descriptor: 'Floor-grazing architectural', premium: 5500 },
+  'japanese-minimal': { label: 'Japanese Minimal', descriptor: 'Floor seating, tatami proportion', premium: 4200 },
+  sculpted: { label: 'Sculpted', descriptor: 'Artisan organic form', premium: 16500 },
+  'velvet-lounge': { label: 'Velvet Lounge', descriptor: 'Velvet-wrapped deep lounge', premium: 9800 },
+  'floating-base': { label: 'Floating Base', descriptor: 'Hidden plinth, suspended look', premium: 7500 },
+  'contemporary-luxury': { label: 'Contemporary Luxury', descriptor: 'Editorial modern luxe', premium: 10500 },
+  'signature-series': { label: 'Signature Series', descriptor: 'Atelier signed editions', premium: 22000 }
 };
 
 // ─────────────────────────────────────────────────────────────────────

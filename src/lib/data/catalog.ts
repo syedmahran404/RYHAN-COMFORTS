@@ -284,6 +284,196 @@ const SOFA_CATALOG: Product[] = [
     description: 'Seven-module configurable system.',
     style: 'modular',
     collections: []
+  }),
+
+  // ═════════════ NEW LUXURY TYPOLOGIES (Phase 3) ═════════════
+
+  // MID CENTURY
+  buildSofa({
+    id: 'sofa-mid-halston',
+    slug: 'halston-mid-century',
+    name: 'Halston Mid-Century',
+    tagline: 'Walnut-legged modernism',
+    description: 'Tapered walnut legs, low-tailored back, editorial mid-century silhouette.',
+    style: 'mid-century',
+    tags: tagify('editors-pick', 'trending'),
+    collections: ['trending', 'premium'],
+    basePrice: 28500
+  }),
+
+  // TUXEDO
+  buildSofa({
+    id: 'sofa-tux-manhattan',
+    slug: 'manhattan-tuxedo',
+    name: 'Manhattan Tuxedo',
+    tagline: 'Equal-height arm & back',
+    description: 'A tailored Tuxedo silhouette — arm and back meet at the same cinematic plane.',
+    style: 'tuxedo',
+    tags: tagify('editors-pick'),
+    collections: ['premium'],
+    basePrice: 31500
+  }),
+
+  // LAWSON
+  buildSofa({
+    id: 'sofa-lawson-montclair',
+    slug: 'montclair-lawson',
+    name: 'Montclair Lawson',
+    tagline: 'Loose cushion ease',
+    description: 'Deep seat, oversized back cushions — the quintessential family sofa.',
+    style: 'lawson',
+    tags: tagify('bestseller'),
+    collections: [],
+    basePrice: 24500
+  }),
+
+  // CAMELBACK
+  buildSofa({
+    id: 'sofa-camel-georgian',
+    slug: 'georgian-camelback',
+    name: 'Georgian Camelback',
+    tagline: 'Arched crown heritage',
+    description: 'The arched Georgian camelback — a heritage silhouette refined for modern rooms.',
+    style: 'camelback',
+    tags: tagify('heritage'),
+    collections: ['luxury-heritage']
+  }),
+
+  // ENGLISH ROLL ARM
+  buildSofa({
+    id: 'sofa-era-belgrave',
+    slug: 'belgrave-english',
+    name: 'Belgrave English',
+    tagline: 'English roll arm classic',
+    description: 'Low-set back, softly rolled arms, down-wrapped cushions.',
+    style: 'english-roll-arm',
+    tags: tagify('heritage', 'editors-pick'),
+    collections: ['luxury-heritage', 'premium']
+  }),
+
+  // ART DECO
+  buildSofa({
+    id: 'sofa-deco-parisian',
+    slug: 'parisian-art-deco',
+    name: 'Parisian Art Deco',
+    tagline: 'Brass, geometry, 1920s',
+    description: 'Geometric back, brass legs, a silhouette straight from a Parisian salon.',
+    style: 'art-deco',
+    tags: tagify('heritage', 'editors-pick'),
+    collections: ['luxury-heritage', 'premium'],
+    basePrice: 46000
+  }),
+
+  // CLOUD
+  buildSofa({
+    id: 'sofa-cloud-nimbus',
+    slug: 'nimbus-cloud',
+    name: 'Nimbus Cloud',
+    tagline: 'Down-fill pillowy depth',
+    description: 'Deep down-filled cushions that swallow you in editorial softness.',
+    style: 'cloud',
+    tags: tagify('bestseller', 'trending'),
+    collections: ['trending'],
+    basePrice: 39500
+  }),
+
+  // HOTEL LOUNGE
+  buildSofa({
+    id: 'sofa-hotel-concord',
+    slug: 'concord-hotel-lounge',
+    name: 'Concord Hotel Lounge',
+    tagline: 'Contract-grade hospitality scale',
+    description: 'The sofa we install for boutique hotels — warranty-extended, hospitality-grade.',
+    style: 'hotel-lounge',
+    tags: tagify('hotel-grade', 'export-quality'),
+    collections: ['hotel-grade', 'export-quality']
+  }),
+
+  // LOW PROFILE
+  buildSofa({
+    id: 'sofa-low-osaka',
+    slug: 'osaka-low-profile',
+    name: 'Osaka Low Profile',
+    tagline: 'Floor-grazing architecture',
+    description: 'A low architectural silhouette designed for statement rooms.',
+    style: 'low-profile',
+    collections: []
+  }),
+
+  // JAPANESE MINIMAL
+  buildSofa({
+    id: 'sofa-jm-kyoto',
+    slug: 'kyoto-minimal',
+    name: 'Kyoto Minimal',
+    tagline: 'Floor-seating harmony',
+    description: 'Japanese floor-level seating, linen cover, tatami proportion.',
+    style: 'japanese-minimal',
+    collections: ['premium']
+  }),
+
+  // SCULPTED
+  buildSofa({
+    id: 'sofa-sculpt-marea',
+    slug: 'marea-sculpted',
+    name: 'Marea Sculpted',
+    tagline: 'Artisan organic form',
+    description: 'A free-form sculptural sofa — a three-dimensional brushstroke in your room.',
+    style: 'sculpted',
+    tags: tagify('limited', 'editors-pick'),
+    collections: ['luxury-heritage', 'premium'],
+    basePrice: 62000
+  }),
+
+  // VELVET LOUNGE
+  buildSofa({
+    id: 'sofa-velvet-verona',
+    slug: 'verona-velvet-lounge',
+    name: 'Verona Velvet Lounge',
+    tagline: 'Velvet-wrapped deep lounge',
+    description: 'Deep velvet-wrapped silhouette with hand-stitched gold cord piping.',
+    style: 'velvet-lounge',
+    tags: tagify('editors-pick', 'imported-fabric'),
+    collections: ['premium'],
+    defaultUpholstery: 'velvet-bordeaux',
+    basePrice: 42000
+  }),
+
+  // FLOATING BASE
+  buildSofa({
+    id: 'sofa-float-celeste',
+    slug: 'celeste-floating',
+    name: 'Celeste Floating',
+    tagline: 'Suspended plinth',
+    description: 'A floating-base sofa with ambient underglow LED option.',
+    style: 'floating-base',
+    tags: tagify('trending', 'editors-pick'),
+    collections: ['trending', 'premium']
+  }),
+
+  // CONTEMPORARY LUXURY
+  buildSofa({
+    id: 'sofa-contemporary-soho',
+    slug: 'soho-editorial',
+    name: 'Soho Editorial',
+    tagline: 'Modern editorial luxe',
+    description: 'A contemporary-luxury silhouette — clean lines, generous proportion, editorial palette.',
+    style: 'contemporary-luxury',
+    tags: tagify('editors-pick', 'trending'),
+    collections: ['trending', 'premium']
+  }),
+
+  // SIGNATURE SERIES
+  buildSofa({
+    id: 'sofa-signature-azam',
+    slug: 'azam-signature',
+    name: 'Azam Signature',
+    tagline: 'Personally signed by Azam Pasha',
+    description:
+      'The Signature Series — each sofa is personally finished and signed by our owner. Limited editions.',
+    style: 'signature-series',
+    tags: tagify('heritage', 'limited', 'editors-pick'),
+    collections: ['luxury-heritage', 'signature'],
+    basePrice: 125000
   })
 ];
 

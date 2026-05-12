@@ -15,8 +15,8 @@ interface SliderProps {
 }
 
 /**
- * Luxury horizontal slider — custom-styled range input.
- * No heavy libraries; pure accessible native input with styled track.
+ * Luxury horizontal slider — light editorial version.
+ * Walnut rail + champagne thumb.
  */
 export function Slider({
   value,
@@ -34,17 +34,17 @@ export function Slider({
     <div className={cn('w-full', className)}>
       {label && (
         <div className="mb-3 flex items-end justify-between">
-          <span className="text-2xs uppercase tracking-luxe text-cream-200/60">{label}</span>
-          <span className="font-mono text-sm text-gold-200 tabular-nums">
+          <span className="text-[10px] uppercase tracking-luxe text-pewter-500">{label}</span>
+          <span className="font-mono text-sm text-walnut-500 tabular-nums">
             {value}
             {suffix ? ` ${suffix}` : ''}
           </span>
         </div>
       )}
       <div className="relative h-6 select-none">
-        <div className="absolute inset-x-0 top-1/2 h-[2px] -translate-y-1/2 bg-obsidian-600" />
+        <div className="absolute inset-x-0 top-1/2 h-[2px] -translate-y-1/2 bg-pewter-200" />
         <div
-          className="absolute left-0 top-1/2 h-[2px] -translate-y-1/2 bg-gradient-to-r from-gold-500 via-gold-300 to-gold-200"
+          className="absolute left-0 top-1/2 h-[2px] -translate-y-1/2 bg-gradient-to-r from-champagne-400 via-champagne-300 to-champagne-200"
           style={{ width: `${percent}%` }}
         />
         <div
@@ -52,8 +52,8 @@ export function Slider({
           style={{ left: `${percent}%` }}
         >
           <div className="relative h-4 w-4">
-            <span className="absolute inset-0 rounded-full bg-gradient-to-b from-gold-200 to-gold-500 shadow-glow" />
-            <span className="absolute inset-[3px] rounded-full bg-obsidian-900" />
+            <span className="absolute inset-0 rounded-full bg-gradient-to-b from-champagne-100 to-champagne-400 shadow-glow" />
+            <span className="absolute inset-[3px] rounded-full bg-ivory-50" />
           </div>
         </div>
         <input
