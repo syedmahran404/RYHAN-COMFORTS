@@ -3,7 +3,7 @@
 A cinematic, luxury digital atelier for **Ryhan Comforts** — custom-made luxury furniture since 2000.
 
 > Owner: **Azam Pasha** · Sub Manager: **Syed Mahran**
-> +91 72045 56776 · +91 86180 82641
+> +91 72045***** · +91 86180*****
 
 ## Phase 1 Scope
 
